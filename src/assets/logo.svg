@@ -1,0 +1,30 @@
+<svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 말풍선 배경 -->
+  <path d="M15 15C15 6.71573 21.7157 0 30 0H50C58.2843 0 65 6.71573 65 15V25C65 33.2843 58.2843 40 50 40H30C21.7157 40 15 33.2843 15 25V15Z" fill="url(#gradient)"/>
+  
+  <!-- 말풍선 꼬리 -->
+  <path d="M25 35L20 45L30 35H25Z" fill="url(#gradient)"/>
+  
+  <!-- 수화 손 모양 (사랑해 제스처) -->
+  <g transform="translate(25, 8)">
+    <!-- 엄지 -->
+    <path d="M8 12C8 10.8954 8.89543 10 10 10C11.1046 10 12 10.8954 12 12V18C12 19.1046 11.1046 20 10 20C8.89543 20 8 19.1046 8 18V12Z" fill="white"/>
+    <!-- 검지 -->
+    <path d="M12 8C12 6.89543 12.8954 6 14 6C15.1046 6 16 6.89543 16 8V18C16 19.1046 15.1046 20 14 20C12.8954 20 12 19.1046 12 18V8Z" fill="white"/>
+    <!-- 새끼손가락 -->
+    <path d="M16 10C16 8.89543 16.8954 8 18 8C19.1046 8 20 8.89543 20 10V18C20 19.1046 19.1046 20 18 20C16.8954 20 16 19.1046 16 18V10Z" fill="white"/>
+    <!-- 손바닥 -->
+    <ellipse cx="14" cy="22" rx="6" ry="3" fill="white"/>
+  </g>
+  
+  <!-- 그라데이션 정의 -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8A00"/>
+      <stop offset="100%" style="stop-color:#FFB84D"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- "소담" 텍스트 -->
+  <text x="75" y="25" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#FF8A00">소담</text>
+</svg>

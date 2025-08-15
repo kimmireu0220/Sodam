@@ -1,0 +1,54 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 곰 몸체 -->
+  <ellipse cx="100" cy="120" rx="60" ry="50" fill="#D4A574"/>
+  
+  <!-- 곰 머리 -->
+  <circle cx="100" cy="80" r="45" fill="#D4A574"/>
+  
+  <!-- 귀 -->
+  <circle cx="75" cy="55" r="15" fill="#D4A574"/>
+  <circle cx="125" cy="55" r="15" fill="#D4A574"/>
+  <circle cx="75" cy="55" r="8" fill="#8B4513"/>
+  <circle cx="125" cy="55" r="8" fill="#8B4513"/>
+  
+  <!-- 얼굴 -->
+  <ellipse cx="100" cy="85" rx="25" ry="20" fill="#F5DEB3"/>
+  
+  <!-- 눈 -->
+  <circle cx="90" cy="75" r="5" fill="#8B4513"/>
+  <circle cx="110" cy="75" r="5" fill="#8B4513"/>
+  <circle cx="90" cy="75" r="2" fill="white"/>
+  <circle cx="110" cy="75" r="2" fill="white"/>
+  
+  <!-- 코 -->
+  <ellipse cx="100" cy="85" rx="3" ry="2" fill="#8B4513"/>
+  
+  <!-- 입 -->
+  <path d="M95 90 Q100 95 105 90" stroke="#8B4513" stroke-width="2" fill="none"/>
+  
+  <!-- 볼 (분홍색) -->
+  <circle cx="85" cy="90" r="8" fill="#FFB6C1" opacity="0.6"/>
+  <circle cx="115" cy="90" r="8" fill="#FFB6C1" opacity="0.6"/>
+  
+  <!-- 팔 -->
+  <ellipse cx="60" cy="110" rx="15" ry="25" fill="#D4A574"/>
+  <ellipse cx="140" cy="110" rx="15" ry="25" fill="#D4A574"/>
+  
+  <!-- 손 -->
+  <circle cx="55" cy="135" r="8" fill="#D4A574"/>
+  <circle cx="145" cy="135" r="8" fill="#D4A574"/>
+  
+  <!-- 다리 -->
+  <ellipse cx="85" cy="160" rx="12" ry="20" fill="#D4A574"/>
+  <ellipse cx="115" cy="160" rx="12" ry="20" fill="#D4A574"/>
+  
+  <!-- 발 -->
+  <ellipse cx="85" cy="175" rx="10" ry="8" fill="#8B4513"/>
+  <ellipse cx="115" cy="175" rx="10" ry="8" fill="#8B4513"/>
+  
+  <!-- 옷 (주황색) -->
+  <ellipse cx="100" cy="120" rx="50" ry="35" fill="#FF8A00" opacity="0.8"/>
+  
+  <!-- 옷 장식 -->
+  <circle cx="100" cy="110" r="3" fill="white"/>
+</svg>
