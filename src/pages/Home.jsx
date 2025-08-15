@@ -50,7 +50,7 @@ const Home = ({ onNavigate }) => {
     {
       title: '텍스트로 말하기',
       subtitle: '직접 입력',
-      description: '텍스트를 입력하여 수화로 변환합니다',
+      description: '텍스트를 입력하여 음성으로 전달합니다',
       icon: '✏️',
       path: '/speak',
       color: 'var(--secondary)'

@@ -13,7 +13,6 @@
  * 
  * 향후 연동 지점:
  * - TTS 기능 연동
- * - 수화 애니메이션 연동
  * - 사용자 맞춤 문구 저장
  */
 import { useState } from 'react';

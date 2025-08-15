@@ -15,7 +15,6 @@
  * 
  * 향후 연동 지점:
  * - TTS 기능 연동
- * - 수화 애니메이션 연동
  * - 텍스트 크기 조절 기능
  */
 const BigTextCard = ({ text, isVisible, onClose }) => {
@@ -119,13 +118,11 @@ const BigTextCard = ({ text, isVisible, onClose }) => {
             {text}
           </div>
 
-          {/* 액션 버튼들 */}
+          {/* 액션 버튼 */}
           <div
             style={{
               display: 'flex',
-              gap: 'var(--spacing-md)',
-              justifyContent: 'center',
-              flexWrap: 'wrap'
+              justifyContent: 'center'
             }}
           >
             <button
@@ -137,17 +134,6 @@ const BigTextCard = ({ text, isVisible, onClose }) => {
               style={{ minWidth: '120px' }}
             >
               음성으로 전달
-            </button>
-            
-            <button
-              onClick={() => {
-                // TODO: 수화 애니메이션 연동 예정
-                alert('곧 제공될 예정입니다');
-              }}
-              className="btn btn-secondary"
-              style={{ minWidth: '120px' }}
-            >
-              수화로 변환
             </button>
           </div>
         </div>
