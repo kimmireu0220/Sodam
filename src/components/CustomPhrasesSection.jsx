@@ -29,8 +29,7 @@ import {
   getItem, 
   addCustomPhrase, 
   updateCustomPhrase, 
-  deleteCustomPhrase, 
-  reorderCustomPhrases
+  deleteCustomPhrase
 } from '../utils/storage';
 
 const CATEGORIES = ['전체', '업무', '일상', '긴급'];
@@ -48,8 +47,7 @@ const CustomPhrasesSection = () => {
   const [sortBy, setSortBy] = useState('usage');
   const [showModal, setShowModal] = useState(false);
   const [editingPhrase, setEditingPhrase] = useState(null);
-  const [draggedItem, setDraggedItem] = useState(null);
-  const [dragOverIndex, setDragOverIndex] = useState(null);
+
   const [announcement, setAnnouncement] = useState('');
 
   // 폼 상태
@@ -211,64 +209,7 @@ const CustomPhrasesSection = () => {
   };
 
 
-  // 드래그앤드롭 이벤트 핸들러
-  const handleDragStart = (e, phrase, index) => {
-    setDraggedItem({ phrase, index });
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', e.target.outerHTML);
-  };
 
-  const handleDragOver = (e, index) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    setDragOverIndex(index);
-  };
-
-  const handleDragLeave = () => {
-    setDragOverIndex(null);
-  };
-
-  const handleDrop = (e, dropIndex) => {
-    e.preventDefault();
-    setDragOverIndex(null);
-
-    if (!draggedItem || draggedItem.index === dropIndex) {
-      setDraggedItem(null);
-      return;
-    }
-
-    try {
-      // 전체 phrases 배열에서 실제 인덱스 찾기
-      const draggedPhraseId = draggedItem.phrase.id;
-      const droppedPhraseId = filteredAndSortedPhrases[dropIndex].id;
-
-      const newOrder = [...phrases];
-      const draggedIndex = newOrder.findIndex(p => p.id === draggedPhraseId);
-      const droppedIndex = newOrder.findIndex(p => p.id === droppedPhraseId);
-
-      if (draggedIndex !== -1 && droppedIndex !== -1) {
-        // 배열 요소 이동
-        const [removed] = newOrder.splice(draggedIndex, 1);
-        newOrder.splice(droppedIndex, 0, removed);
-
-        const success = reorderCustomPhrases(newOrder);
-        if (success) {
-          loadPhrases();
-          makeAnnouncement(`"${draggedItem.phrase.text}"가 ${dropIndex + 1}번째 위치로 이동되었습니다.`);
-        }
-      }
-    } catch (error) {
-      console.error('순서 변경 중 오류:', error);
-      makeAnnouncement('순서 변경 중 오류가 발생했습니다.');
-    }
-
-    setDraggedItem(null);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedItem(null);
-    setDragOverIndex(null);
-  };
 
 
   // 접근성을 위한 알림 함수
@@ -505,84 +446,100 @@ const CustomPhrasesSection = () => {
             <div
               key={phrase.id}
               className="card"
-              draggable={sortBy === 'usage' && selectedCategory === '전체' && !showFavoritesOnly}
-              onDragStart={(e) => handleDragStart(e, phrase, index)}
-              onDragOver={(e) => handleDragOver(e, index)}
-              onDragLeave={handleDragLeave}
-              onDrop={(e) => handleDrop(e, index)}
-              onDragEnd={handleDragEnd}
               style={{
-                border: dragOverIndex === index ? '2px solid var(--primary)' : '1px solid transparent',
-                opacity: draggedItem && draggedItem.phrase.id === phrase.id ? 0.5 : 1,
                 transition: 'all 0.2s ease'
               }}
             >
+              {/* 상단 행: 드래그 핸들 + 문구 + 별표 */}
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  gap: 'var(--spacing-md)',
+                  marginBottom: 'var(--spacing-sm)'
+                }}
+              >
+
+
+                {/* 상용구 텍스트 (한 줄로 표시) */}
+                <div 
+                  style={{ 
+                    flex: 1, 
+                    minWidth: 0,
+                    fontSize: 'var(--font-size-base)',
+                    color: 'var(--text-primary)',
+                    fontWeight: '500',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}
+                  title={phrase.text}
+                >
+                  {phrase.text}
+                </div>
+
+                {/* 즐겨찾기 토글 */}
+                <button
+                  className="btn"
+                  onClick={() => handleFavoriteToggle(phrase)}
+                  style={{
+                    minWidth: '40px',
+                    minHeight: '40px',
+                    padding: 'var(--spacing-xs)',
+                    backgroundColor: 'transparent',
+                    color: phrase.isFavorite ? '#FFD700' : 'var(--text-secondary)',
+                    fontSize: '18px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}
+                  aria-label={phrase.isFavorite ? '즐겨찾기에서 제거' : '즐겨찾기에 추가'}
+                >
+                  {phrase.isFavorite ? '⭐' : '☆'}
+                </button>
+              </div>
+
+              {/* 하단 행: 카테고리 + 사용횟수 + 액션 버튼들 */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                   gap: 'var(--spacing-md)'
                 }}
               >
-                {/* 드래그 핸들 */}
-                {sortBy === 'usage' && selectedCategory === '전체' && !showFavoritesOnly && (
-                  <div
+                {/* 왼쪽: 카테고리 + 사용횟수 */}
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--spacing-md)',
+                    fontSize: 'var(--font-size-sm)',
+                    color: 'var(--text-secondary)'
+                  }}
+                >
+                  <span
                     style={{
-                      cursor: 'grab',
-                      color: 'var(--text-secondary)',
-                      fontSize: '16px',
-                      padding: 'var(--spacing-xs)'
-                    }}
-                    aria-hidden="true"
-                  >
-                    ↕️
-                  </div>
-                )}
-
-                {/* 상용구 텍스트 */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div
-                    style={{
-                      fontSize: 'var(--font-size-base)',
-                      color: 'var(--text-primary)',
-                      fontWeight: '500',
-                      marginBottom: 'var(--spacing-xs)',
-                      wordBreak: 'break-word'
+                      padding: '2px 8px',
+                      backgroundColor: 
+                        phrase.category === '업무' ? '#E3F2FD' :
+                        phrase.category === '긴급' ? '#FFEBEE' : '#F1F8E9',
+                      color:
+                        phrase.category === '업무' ? '#1976D2' :
+                        phrase.category === '긴급' ? '#C62828' : '#388E3C',
+                      borderRadius: '12px',
+                      fontSize: '11px',
+                      fontWeight: '600'
                     }}
                   >
-                    {phrase.text}
-                  </div>
-                  
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 'var(--spacing-md)',
-                      fontSize: 'var(--font-size-sm)',
-                      color: 'var(--text-secondary)'
-                    }}
-                  >
-                    <span
-                      style={{
-                        padding: '2px 8px',
-                        backgroundColor: 
-                          phrase.category === '업무' ? '#E3F2FD' :
-                          phrase.category === '긴급' ? '#FFEBEE' : '#F1F8E9',
-                        color:
-                          phrase.category === '업무' ? '#1976D2' :
-                          phrase.category === '긴급' ? '#C62828' : '#388E3C',
-                        borderRadius: '12px',
-                        fontSize: '11px',
-                        fontWeight: '600'
-                      }}
-                    >
-                      {phrase.category}
-                    </span>
-                    <span>사용 {phrase.usageCount || 0}회</span>
-                  </div>
+                    {phrase.category}
+                  </span>
+                  <span>사용 {phrase.usageCount || 0}회</span>
                 </div>
 
-                {/* 액션 버튼들 */}
+                {/* 오른쪽: 액션 버튼들 */}
                 <div
                   style={{
                     display: 'flex',
@@ -591,32 +548,6 @@ const CustomPhrasesSection = () => {
                     flexShrink: 0
                   }}
                 >
-
-
-                  {/* 즐겨찾기 토글 */}
-                  <button
-                    className="btn"
-                    onClick={() => handleFavoriteToggle(phrase)}
-                    style={{
-                      minWidth: '40px',
-                      minHeight: '40px',
-                      padding: 'var(--spacing-xs)',
-                      backgroundColor: 'transparent',
-                      color: phrase.isFavorite ? '#FFD700' : 'var(--text-secondary)',
-                      fontSize: '18px',
-                      borderRadius: '50%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                    aria-label={phrase.isFavorite ? '즐겨찾기에서 제거' : '즐겨찾기에 추가'}
-                  >
-                    {phrase.isFavorite ? '⭐' : '☆'}
-                  </button>
-
-                  {/* 버튼 사이 여백 */}
-                  <div style={{ width: 'var(--spacing-sm)' }}></div>
-
                   {/* 수정 버튼 */}
                   <button
                     className="btn"

@@ -330,11 +330,38 @@ body {
     gap: var(--spacing-xs);
   }
   
-  /* Touch-friendly drag handles */
-  .drag-handle {
-    padding: var(--spacing-sm);
-    min-width: var(--touch-target-min);
-    min-height: var(--touch-target-min);
+
+  
+  /* Custom phrases mobile optimization */
+  .phrase-card {
+    padding: var(--spacing-mobile);
+  }
+  
+  .phrase-text {
+    font-size: var(--font-mobile-base);
+    line-height: 1.4;
+  }
+  
+  .phrase-actions {
+    gap: var(--spacing-xs);
+  }
+  
+  .phrase-actions .btn {
+    min-width: 44px;
+    min-height: 44px;
+    font-size: var(--font-mobile-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  /* Category tag mobile optimization */
+  .category-tag {
+    font-size: 10px;
+    padding: 1px 6px;
+  }
+  
+  /* Usage count mobile optimization */
+  .usage-count {
+    font-size: var(--font-mobile-sm);
   }
 }
 
