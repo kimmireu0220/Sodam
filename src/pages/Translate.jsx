@@ -22,7 +22,6 @@ import { useNavigate } from 'react-router-dom';
 import TurnLight from '../components/TurnLight';
 import AvatarCard from '../components/AvatarCard';
 import MicButton from '../components/MicButton';
-import translateIcon from '../assets/translate-icon.png';
 
 const Translate = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -82,26 +81,6 @@ const Translate = ({ onNavigate }) => {
           gap: 'var(--spacing-xl)'
         }}
       >
-        {/* 대화 듣기 이미지 */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginBottom: 'var(--spacing-lg)'
-          }}
-        >
-          <img
-            src={translateIcon}
-            alt="대화 듣기"
-            style={{
-              width: '200px',
-              height: 'auto',
-              borderRadius: 'var(--radius)',
-              boxShadow: 'var(--shadow)'
-            }}
-          />
-        </div>
-
         {/* 곰 캐릭터 카드 */}
         <AvatarCard status={status} message={message} />
 

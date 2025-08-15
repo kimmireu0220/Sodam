@@ -16,12 +16,15 @@
  * - 오디오 스트림 처리
  * - 음성 품질 모니터링
  */
+import translateIcon from '../assets/translate-icon.png';
+
 const MicButton = ({ status, onClick }) => {
   const getButtonInfo = () => {
     switch (status) {
       case 'idle':
         return {
-          icon: '🎤',
+          icon: 'image',
+          imageSrc: translateIcon,
           text: '대화 듣기',
           color: 'var(--primary)',
           disabled: false
@@ -85,9 +88,21 @@ const MicButton = ({ status, onClick }) => {
 
       aria-label={`${buttonInfo.text} 버튼`}
     >
-      <span style={{ fontSize: '24px' }}>
-        {buttonInfo.icon}
-      </span>
+      {buttonInfo.icon === 'image' ? (
+        <img
+          src={buttonInfo.imageSrc}
+          alt="대화 듣기"
+          style={{
+            width: '24px',
+            height: '24px',
+            filter: 'brightness(0) invert(1)'
+          }}
+        />
+      ) : (
+        <span style={{ fontSize: '24px' }}>
+          {buttonInfo.icon}
+        </span>
+      )}
       <span>{buttonInfo.text}</span>
 
       <style>
