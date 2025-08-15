@@ -146,6 +146,6 @@ npm run deploy
 
 ---
 
-**Sodam Team** | 2025년 1월
+**Sodam Team** | 2025년 8월
 
 *더 나은 소통을 위한 첫걸음, Sodam과 함께하세요.*
