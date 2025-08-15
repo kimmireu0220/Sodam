@@ -23,7 +23,7 @@ const BottomNav = ({ currentPath, onNavigate }) => {
   const navItems = [
     { path: '/home', label: '홈', icon: '🏠' },
     { path: '/translate', label: '수화 변환', icon: '🤟' },
-    { path: '/mypage', label: '마이', icon: '👤' }
+    { path: '/mypage', label: '마이 페이지', icon: '👤' }
   ];
 
   const handleNavClick = (path) => {
