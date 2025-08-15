@@ -82,18 +82,7 @@ const MicButton = ({ status, onClick }) => {
         boxShadow: status === 'listening' || status === 'analyzing' ? '0 0 20px rgba(255, 68, 68, 0.3)' : 'var(--shadow)',
         animation: status === 'listening' || status === 'analyzing' ? 'pulse 2s infinite' : 'none'
       }}
-      onMouseEnter={(e) => {
-        if (!buttonInfo.disabled) {
-          e.target.style.transform = 'scale(1.05)';
-          e.target.style.boxShadow = 'var(--shadow-hover)';
-        }
-      }}
-      onMouseLeave={(e) => {
-        if (!buttonInfo.disabled) {
-          e.target.style.transform = 'scale(1)';
-          e.target.style.boxShadow = status === 'listening' || status === 'analyzing' ? '0 0 20px rgba(255, 68, 68, 0.3)' : 'var(--shadow)';
-        }
-      }}
+
       aria-label={`${buttonInfo.text} 버튼`}
     >
       <span style={{ fontSize: '24px' }}>

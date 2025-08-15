@@ -84,12 +84,7 @@ const Speak = ({ onNavigate }) => {
               cursor: 'pointer',
               transition: 'all 0.2s ease'
             }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = '#F0F0F0';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = 'transparent';
-            }}
+
             aria-label="뒤로 가기"
           >
             ←

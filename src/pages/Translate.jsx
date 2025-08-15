@@ -117,18 +117,7 @@ const Translate = ({ onNavigate }) => {
               minWidth: '160px',
               opacity: status === 'ready' ? 1 : 0.5
             }}
-            onMouseEnter={(e) => {
-              if (status === 'ready') {
-                e.target.style.transform = 'scale(1.05)';
-                e.target.style.boxShadow = 'var(--shadow-hover)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (status === 'ready') {
-                e.target.style.transform = 'scale(1)';
-                e.target.style.boxShadow = 'var(--shadow)';
-              }
-            }}
+
             aria-label="수화로 변환"
           >
             <span style={{ fontSize: '24px' }}>🤟</span>
@@ -162,14 +151,7 @@ const Translate = ({ onNavigate }) => {
             cursor: 'pointer',
             transition: 'all 0.2s ease'
           }}
-          onMouseEnter={(e) => {
-            e.target.style.transform = 'scale(1.1)';
-            e.target.style.boxShadow = 'var(--shadow-hover)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = 'scale(1)';
-            e.target.style.boxShadow = 'var(--shadow)';
-          }}
+
           aria-label="뒤로 가기"
         >
           ←

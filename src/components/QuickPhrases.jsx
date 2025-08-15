@@ -78,14 +78,7 @@ const QuickPhrases = ({ onPhraseClick }) => {
               wordBreak: 'keep-all',
               lineHeight: '1.4'
             }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = 'var(--shadow-hover)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = 'none';
-            }}
+
             aria-label={`${phrase} 선택`}
           >
             {phrase}

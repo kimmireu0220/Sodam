@@ -153,14 +153,7 @@ const Home = ({ onNavigate }) => {
                 position: 'relative',
                 overflow: 'hidden'
               }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-4px)';
-                e.target.style.boxShadow = 'var(--shadow-hover)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = 'var(--shadow)';
-              }}
+
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {

@@ -80,14 +80,7 @@ const BigTextCard = ({ text, isVisible, onClose }) => {
               justifyContent: 'center',
               transition: 'all 0.2s ease'
             }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = '#F0F0F0';
-              e.target.style.color = 'var(--text-primary)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = 'transparent';
-              e.target.style.color = 'var(--text-secondary)';
-            }}
+
             aria-label="닫기"
           >
             ✕

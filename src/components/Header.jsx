@@ -47,8 +47,7 @@ const Header = ({ onMenuClick }) => {
           borderRadius: 'var(--radius)',
           transition: 'transform 0.2s ease'
         }}
-        onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-        onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+
         aria-label="홈으로 이동"
       >
         <img 
