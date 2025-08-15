@@ -33,6 +33,7 @@ const Translate = ({ onNavigate }) => {
   const navigate = useNavigate();
   const [status, setStatus] = useState('idle');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showLanguageGuide, setShowLanguageGuide] = useState(false);
 
   // Speech Recognition Hook
   const {
@@ -118,6 +119,11 @@ const Translate = ({ onNavigate }) => {
       setStatus('idle');
       alert('음성 인식을 시작할 수 없습니다. 마이크가 연결되어 있는지 확인해 주세요.');
     }
+  };
+
+  // 언어 설정 안내 팝업 토글
+  const toggleLanguageGuide = () => {
+    setShowLanguageGuide(!showLanguageGuide);
   };
 
   const handleTranslateClick = () => {
@@ -247,6 +253,8 @@ const Translate = ({ onNavigate }) => {
               대화 듣기를 통해 실시간 수화 통역을 시작하세요!
             </p>
             
+
+            
             {/* 상태 표시 */}
             <div
               style={{
@@ -357,10 +365,156 @@ const Translate = ({ onNavigate }) => {
       {/* 하단 네비게이션 */}
       <BottomNav currentPage="translate" onNavigate={onNavigate} />
 
-      {/* 상태 표시 */}
-      <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
+      {/* 상태 표시 및 언어 설정 */}
+      <div style={{ position: 'absolute', top: '20px', right: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
         <TurnLight status={status} />
+        <button
+          onClick={toggleLanguageGuide}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '24px',
+            cursor: 'pointer',
+            padding: '8px',
+            borderRadius: '50%',
+            transition: 'all 0.3s ease',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+            e.target.style.transform = 'scale(1.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = 'transparent';
+            e.target.style.transform = 'scale(1)';
+          }}
+          title="한국어 인식 설정 도움말"
+        >
+          🌐
+        </button>
       </div>
+
+      {/* 언어 설정 안내 팝업 */}
+      {showLanguageGuide && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: 'var(--spacing-lg)'
+          }}
+          onClick={toggleLanguageGuide}
+        >
+          <div
+            className="card"
+            style={{
+              maxWidth: '500px',
+              maxHeight: '80vh',
+              overflow: 'auto',
+              padding: 'var(--spacing-xl)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ textAlign: 'center', marginBottom: 'var(--spacing-lg)' }}>
+              <h2 style={{ color: 'var(--primary)', marginBottom: 'var(--spacing-md)' }}>
+                🌐 한국어 음성 인식 설정 방법
+              </h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)' }}>
+                브라우저 설정을 변경하여 한국어 음성 인식 정확도를 높이세요
+              </p>
+            </div>
+
+            <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+              <h3 style={{ color: 'var(--text-primary)', marginBottom: 'var(--spacing-md)' }}>
+                📱 모바일 브라우저
+              </h3>
+              
+              <div style={{ marginBottom: 'var(--spacing-md)' }}>
+                <h4 style={{ color: 'var(--primary)', fontSize: 'var(--font-size-base)' }}>Chrome (Android)</h4>
+                <ol style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', paddingLeft: 'var(--spacing-md)' }}>
+                  <li>Chrome 앱 열기</li>
+                  <li>⋮ (메뉴) → 설정</li>
+                  <li>고급 → 언어</li>
+                  <li>언어 추가 → 한국어 선택</li>
+                  <li>한국어를 맨 위로 이동</li>
+                </ol>
+              </div>
+
+              <div style={{ marginBottom: 'var(--spacing-md)' }}>
+                <h4 style={{ color: 'var(--primary)', fontSize: 'var(--font-size-base)' }}>Safari (iOS)</h4>
+                <ol style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', paddingLeft: 'var(--spacing-md)' }}>
+                  <li>설정 앱 열기</li>
+                  <li>일반 → 언어 및 지역</li>
+                  <li>iPhone 언어 → 한국어 선택</li>
+                  <li>지역 → 대한민국 선택</li>
+                </ol>
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+              <h3 style={{ color: 'var(--text-primary)', marginBottom: 'var(--spacing-md)' }}>
+                💻 데스크톱 브라우저
+              </h3>
+              
+              <div style={{ marginBottom: 'var(--spacing-md)' }}>
+                <h4 style={{ color: 'var(--primary)', fontSize: 'var(--font-size-base)' }}>Chrome</h4>
+                <ol style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', paddingLeft: 'var(--spacing-md)' }}>
+                  <li>Chrome 열기</li>
+                  <li>⋮ (메뉴) → 설정</li>
+                  <li>고급 → 언어</li>
+                  <li>언어 추가 → 한국어 선택</li>
+                  <li>한국어를 맨 위로 이동</li>
+                </ol>
+              </div>
+
+              <div style={{ marginBottom: 'var(--spacing-md)' }}>
+                <h4 style={{ color: 'var(--primary)', fontSize: 'var(--font-size-base)' }}>Safari (Mac)</h4>
+                <ol style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', paddingLeft: 'var(--spacing-md)' }}>
+                  <li>Safari → 환경설정</li>
+                  <li>웹사이트 → 언어</li>
+                  <li>언어 추가 → 한국어 선택</li>
+                  <li>한국어를 맨 위로 이동</li>
+                </ol>
+              </div>
+            </div>
+
+            <div style={{ 
+              backgroundColor: '#FFF3E0', 
+              padding: 'var(--spacing-md)', 
+              borderRadius: 'var(--radius)',
+              border: '1px solid #FFB84D'
+            }}>
+              <p style={{ 
+                fontSize: 'var(--font-size-sm)', 
+                color: '#E65100', 
+                margin: 0,
+                fontWeight: '600'
+              }}>
+                💡 팁: 설정 변경 후 브라우저를 완전히 종료하고 다시 열어주세요!
+              </p>
+            </div>
+
+            <div style={{ textAlign: 'center', marginTop: 'var(--spacing-lg)' }}>
+              <button
+                onClick={toggleLanguageGuide}
+                className="btn btn-primary"
+                style={{ minWidth: '120px' }}
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 스타일 추가 */}
       <style>
