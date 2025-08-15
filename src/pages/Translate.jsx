@@ -20,7 +20,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TurnLight from '../components/TurnLight';
-import bearWaiting from '../assets/331cbc990a5fc722e8e6b5911bb66a3d154e0103.png';
+import bearSuggest from '../assets/bear-suggest.png';
 
 const Translate = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -108,43 +108,48 @@ const Translate = ({ onNavigate }) => {
           gap: 'var(--spacing-xl)'
         }}
       >
-        {/* 곰 캐릭터 카드 */}
-        <div
-          style={{
-            background: 'var(--white)',
-            borderRadius: '20px',
-            padding: 'var(--spacing-xl)',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-            textAlign: 'center',
-            maxWidth: '320px',
-            width: '100%'
-          }}
-        >
-          {/* 곰 캐릭터 이미지 */}
-          <div style={{ marginBottom: 'var(--spacing-lg)' }}>
-            <img
-              src={bearWaiting}
-              alt="곰 캐릭터"
-              style={{
-                width: '120px',
-                height: 'auto',
-                borderRadius: '10px'
-              }}
-            />
-          </div>
+                 {/* 곰 캐릭터 카드 */}
+         <div
+           style={{
+             background: 'var(--white)',
+             borderRadius: '20px',
+             padding: 'var(--spacing-xl)',
+             boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+             textAlign: 'center',
+             maxWidth: '90%',
+             width: '100%',
+             minHeight: '300px',
+             display: 'flex',
+             flexDirection: 'column',
+             justifyContent: 'center'
+           }}
+         >
+                     {/* 곰 캐릭터 이미지 */}
+           <div style={{ marginBottom: 'var(--spacing-xl)' }}>
+             <img
+               src={bearSuggest}
+               alt="곰 캐릭터"
+               style={{
+                 width: '180px',
+                 height: 'auto',
+                 borderRadius: '10px'
+               }}
+             />
+           </div>
           
-          {/* 메시지 텍스트 */}
-          <p
-            style={{
-              fontSize: 'var(--font-size-lg)',
-              fontWeight: '600',
-              color: 'var(--text-primary)',
-              margin: 0,
-              lineHeight: '1.4'
-            }}
-          >
-            대화 듣기를 통해 실시간 수화 통역을 시작하세요!
-          </p>
+                     {/* 메시지 텍스트 */}
+           <p
+             style={{
+               fontSize: 'var(--font-size-xl)',
+               fontWeight: '600',
+               color: 'var(--text-primary)',
+               margin: 0,
+               lineHeight: '1.5',
+               padding: '0 var(--spacing-md)'
+             }}
+           >
+             대화 듣기를 통해 실시간 수화 통역을 시작하세요!
+           </p>
         </div>
 
         {/* 하단 버튼들 */}
