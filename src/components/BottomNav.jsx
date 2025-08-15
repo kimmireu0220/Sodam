@@ -20,7 +20,7 @@ import signLanguageIcon from '../assets/sign-language-icon.png';
 import homeIcon from '../assets/home-icon.png';
 import profileIcon from '../assets/profile-icon.png';
 
-const BottomNav = ({ currentPath, onNavigate }) => {
+const BottomNav = ({ currentPath }) => {
   const navigate = useNavigate();
 
   const navItems = [

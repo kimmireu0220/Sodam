@@ -17,7 +17,7 @@
  */
 import bear from '../assets/bear-new.png';
 
-const AvatarCard = ({ status, message }) => {
+const AvatarCard = ({ status }) => {
   const getStatusIcon = () => {
     switch (status) {
       case 'listening':

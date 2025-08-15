@@ -112,7 +112,6 @@ const ttsService = new TTSService();
 if (window.speechSynthesis) {
   window.speechSynthesis.onvoiceschanged = () => {
     // 음성 목록이 로드되면 콜백 호출
-    console.log('Voices loaded:', ttsService.getAvailableVoices().length);
   };
 }
 

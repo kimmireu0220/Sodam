@@ -16,7 +16,6 @@
  * - 온보딩 플로우 연동
  * - 앱 초기화 로직
  */
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/sodam-logo.png';
 

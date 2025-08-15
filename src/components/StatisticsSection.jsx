@@ -455,7 +455,7 @@ const StatisticsSection = () => {
                 marginBottom: 'var(--spacing-sm)'
               }}
             >
-              {chartData.map((item, index) => (
+              {chartData.map((item) => (
                 <div
                   key={item.date}
                   style={{

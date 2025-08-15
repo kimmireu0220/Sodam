@@ -121,14 +121,12 @@ export const initSeedDataIfEmpty = () => {
     const existingStats = getItem('statistics');
     if (!existingStats) {
       setItem('statistics', DEFAULT_STATISTICS);
-      console.log('통계 시드 데이터 초기화 완료');
     }
 
     // 개인 상용구 데이터 초기화
     const existingPhrases = getItem('customPhrases');
     if (!existingPhrases || !Array.isArray(existingPhrases)) {
       setItem('customPhrases', DEFAULT_CUSTOM_PHRASES);
-      console.log('개인 상용구 시드 데이터 초기화 완료');
     }
   } catch (error) {
     console.error('시드 데이터 초기화 중 오류:', error);
@@ -260,7 +258,6 @@ export const resetAllData = () => {
   try {
     setItem('statistics', DEFAULT_STATISTICS);
     setItem('customPhrases', DEFAULT_CUSTOM_PHRASES);
-    console.log('모든 데이터가 초기화되었습니다.');
     return true;
   } catch (error) {
     console.error('데이터 초기화 중 오류:', error);

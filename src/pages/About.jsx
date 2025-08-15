@@ -19,7 +19,7 @@
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/sodam-logo.png';
 
-const About = ({ onNavigate }) => {
+const About = () => {
   const navigate = useNavigate();
 
   return (
