@@ -23,6 +23,7 @@ import Home from './pages/Home';
 import Translate from './pages/Translate';
 import Speak from './pages/Speak';
 import About from './pages/About';
+import MyPage from './pages/MyPage';
 import './styles.css';
 
 const App = () => {
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/translate" element={<Translate onNavigate={showToast} />} />
           <Route path="/speak" element={<Speak onNavigate={showToast} />} />
           <Route path="/about" element={<About onNavigate={showToast} />} />
+          <Route path="/mypage" element={<MyPage onNavigate={showToast} />} />
         </Routes>
 
         {/* 토스트 메시지 */}

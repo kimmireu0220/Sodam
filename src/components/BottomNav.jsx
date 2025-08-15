@@ -30,11 +30,6 @@ const BottomNav = ({ currentPath, onNavigate }) => {
   ];
 
   const handleNavClick = (path) => {
-    if (path === '/mypage') {
-      // 마이페이지는 토스트 메시지만 표시
-      onNavigate('준비 중입니다');
-      return;
-    }
     navigate(path);
   };
 

@@ -31,10 +31,6 @@ const Home = ({ onNavigate }) => {
   };
 
   const handleCardClick = (path) => {
-    if (path === '/mypage') {
-      onNavigate('준비 중입니다');
-      return;
-    }
     navigate(path);
   };
 
@@ -58,12 +54,12 @@ const Home = ({ onNavigate }) => {
     },
     {
       title: '마이 페이지',
-      subtitle: '준비중',
-      description: '개인 설정 및 사용 기록을 확인합니다',
+      subtitle: '사용 통계 + 개인 상용구',
+      description: '사용 패턴을 확인하고 개인 상용구를 관리합니다',
       icon: 'image',
       imageSrc: profileIcon,
       path: '/mypage',
-      color: 'var(--text-secondary)'
+      color: 'var(--primary)'
     }
   ];
 
