@@ -240,18 +240,7 @@ const Translate = ({ onNavigate }) => {
               gap: 'var(--spacing-lg)'
             }}
           >
-            {/* 안내 메시지 */}
-            <p
-              style={{
-                fontSize: 'var(--font-size-xl)',
-                fontWeight: '600',
-                color: 'var(--text-primary)',
-                margin: 0,
-                lineHeight: '1.5'
-              }}
-            >
-              대화 듣기를 통해 실시간 수화 통역을 시작하세요!
-            </p>
+
             
 
             
