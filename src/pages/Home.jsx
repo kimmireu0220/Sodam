@@ -126,7 +126,7 @@ const Home = ({ onNavigate }) => {
             src={bear}
             alt="소담 곰 캐릭터"
             style={{
-              width: '150px',
+              width: '200px',
               height: 'auto',
               filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))'
             }}

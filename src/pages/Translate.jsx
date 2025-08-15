@@ -152,69 +152,72 @@ const Translate = ({ onNavigate }) => {
            </p>
         </div>
 
-        {/* 하단 버튼들 */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--spacing-md)',
-            width: '100%',
-            maxWidth: '320px'
-          }}
-        >
-          {/* 대화 듣기 버튼 */}
-          <button
-            onClick={handleMicClick}
-            className="btn btn-primary"
-            style={{
-              background: '#FF6B35', // 오렌지 색상
-              fontSize: 'var(--font-size-lg)',
-              fontWeight: '600',
-              padding: 'var(--spacing-md) var(--spacing-lg)',
-              borderRadius: 'var(--radius)',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--spacing-sm)',
-              justifyContent: 'center',
-              color: 'var(--white)',
-              minWidth: '160px'
-            }}
-            aria-label="대화 듣기"
-          >
-            <span style={{ fontSize: '20px' }}>🎤</span>
-            <span>대화 듣기</span>
-          </button>
+                 {/* 하단 버튼들 */}
+         <div
+           style={{
+             display: 'flex',
+             flexDirection: 'row',
+             gap: 'var(--spacing-md)',
+             width: '100%',
+             maxWidth: '90%',
+             justifyContent: 'center'
+           }}
+         >
+                     {/* 대화 듣기 버튼 */}
+           <button
+             onClick={handleMicClick}
+             className="btn btn-primary"
+             style={{
+               background: '#FF6B35', // 오렌지 색상
+               fontSize: 'var(--font-size-lg)',
+               fontWeight: '600',
+               padding: 'var(--spacing-md) var(--spacing-lg)',
+               borderRadius: 'var(--radius)',
+               border: 'none',
+               cursor: 'pointer',
+               transition: 'all 0.2s ease',
+               display: 'flex',
+               alignItems: 'center',
+               gap: 'var(--spacing-sm)',
+               justifyContent: 'center',
+               color: 'var(--white)',
+               flex: 1,
+               maxWidth: '200px'
+             }}
+             aria-label="대화 듣기"
+           >
+             <span style={{ fontSize: '20px' }}>🎤</span>
+             <span>대화 듣기</span>
+           </button>
 
-          {/* 수화로 변환 버튼 */}
-          <button
-            onClick={handleTranslateClick}
-            disabled={status !== 'ready'}
-            className="btn btn-secondary"
-            style={{
-              background: '#F0F0F0', // 연한 베이지 색상
-              fontSize: 'var(--font-size-lg)',
-              fontWeight: '600',
-              padding: 'var(--spacing-md) var(--spacing-lg)',
-              borderRadius: 'var(--radius)',
-              border: 'none',
-              cursor: status === 'ready' ? 'pointer' : 'not-allowed',
-              transition: 'all 0.2s ease',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 'var(--spacing-sm)',
-              justifyContent: 'center',
-              minWidth: '160px',
-              opacity: status === 'ready' ? 1 : 0.5,
-              color: 'var(--text-primary)'
-            }}
-            aria-label="수화로 변환"
-          >
-            <span style={{ fontSize: '20px' }}>🤟</span>
-            <span>수화로 변환</span>
-          </button>
+                     {/* 수화로 변환 버튼 */}
+           <button
+             onClick={handleTranslateClick}
+             disabled={status !== 'ready'}
+             className="btn btn-secondary"
+             style={{
+               background: '#F0F0F0', // 연한 베이지 색상
+               fontSize: 'var(--font-size-lg)',
+               fontWeight: '600',
+               padding: 'var(--spacing-md) var(--spacing-lg)',
+               borderRadius: 'var(--radius)',
+               border: 'none',
+               cursor: status === 'ready' ? 'pointer' : 'not-allowed',
+               transition: 'all 0.2s ease',
+               display: 'flex',
+               alignItems: 'center',
+               gap: 'var(--spacing-sm)',
+               justifyContent: 'center',
+               flex: 1,
+               maxWidth: '200px',
+               opacity: status === 'ready' ? 1 : 0.5,
+               color: 'var(--text-primary)'
+             }}
+             aria-label="수화로 변환"
+           >
+             <span style={{ fontSize: '20px' }}>🤟</span>
+             <span>수화로 변환</span>
+           </button>
         </div>
       </div>
 
