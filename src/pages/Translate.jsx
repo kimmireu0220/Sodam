@@ -12,13 +12,14 @@
  * - MicButton 마이크 제어
  * - 수화 변환 버튼
  * 
- * 향후 연동 지점:
- * - 실제 STT API 연동
+ * 기능:
+ * - 실제 STT API 연동 완료
  * - 수화 애니메이션 연동
  * - 음성 품질 모니터링
  */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import TurnLight from '../components/TurnLight';
@@ -31,28 +32,92 @@ import bearSign from '../assets/bear-sign.png';
 const Translate = ({ onNavigate }) => {
   const navigate = useNavigate();
   const [status, setStatus] = useState('idle');
-  const [message, setMessage] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  // 상태 전환 로직
-  const handleMicClick = () => {
+  // Speech Recognition Hook
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+    isMicrophoneAvailable
+  } = useSpeechRecognition();
+
+  // 음성 인식 상태 모니터링
+  useEffect(() => {
+    if (listening) {
+      setStatus('listening');
+    } else if (isProcessing) {
+      setStatus('analyzing');
+    } else if (transcript && !isProcessing) {
+      setStatus('ready');
+    }
+  }, [listening, transcript, isProcessing]);
+
+  // 브라우저 지원 확인
+  if (!browserSupportsSpeechRecognition) {
+    return (
+      <div style={{ 
+        padding: 'var(--spacing-lg)', 
+        textAlign: 'center',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div className="card">
+          <h2 style={{ color: 'var(--error)', marginBottom: 'var(--spacing-md)' }}>
+            ⚠️ 브라우저 지원 불가
+          </h2>
+          <p>죄송합니다. 현재 브라우저는 음성 인식을 지원하지 않습니다.</p>
+          <p>Chrome, Safari, 또는 Firefox 최신 버전을 사용해 주세요.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 마이크 클릭 핸들러
+  const handleMicClick = async () => {
     if (status === 'ready') {
       // ready 상태에서 다시 클릭하면 idle로 복귀
       setStatus('idle');
-      setMessage('');
+      resetTranscript();
       return;
     }
 
-    // idle 또는 다른 상태에서 → listening → analyzing → ready 순서로 전환
-    setStatus('listening');
-    
-    setTimeout(() => {
-      setStatus('analyzing');
-    }, 2000); // 2초로 늘림
-    
-    setTimeout(() => {
-      setStatus('ready');
-      setMessage('안녕하세요. 반갑습니다.');
-    }, 4000); // 4초로 늘림
+    if (listening) {
+      // 현재 듣고 있으면 중지
+      SpeechRecognition.stopListening();
+      setIsProcessing(true);
+      
+      // 분석 상태를 잠시 보여주기 위한 딜레이
+      setTimeout(() => {
+        setIsProcessing(false);
+      }, 1000);
+      return;
+    }
+
+    // 마이크 권한 확인
+    if (isMicrophoneAvailable === false) {
+      alert('마이크 권한이 필요합니다. 브라우저 설정에서 마이크 권한을 허용해 주세요.');
+      return;
+    }
+
+    try {
+      // 이전 인식 결과 초기화
+      resetTranscript();
+      setStatus('listening');
+
+      // 음성 인식 시작 (한국어, 연속 인식 비활성화)
+      await SpeechRecognition.startListening({
+        continuous: false, // 한 번에 하나의 발화만 인식
+        language: 'ko'     // 한국어 설정
+      });
+    } catch (error) {
+      console.error('음성 인식 시작 실패:', error);
+      setStatus('idle');
+      alert('음성 인식을 시작할 수 없습니다. 마이크가 연결되어 있는지 확인해 주세요.');
+    }
   };
 
   const handleTranslateClick = () => {
@@ -130,7 +195,7 @@ const Translate = ({ onNavigate }) => {
           }}
         >
           {/* ready, converting, signing 상태일 때 말풍선 표시 */}
-          {(status === 'ready' || status === 'converting' || status === 'signing') && <SpeechBubble message={message} />}
+          {(status === 'ready' || status === 'converting' || status === 'signing') && transcript && <SpeechBubble message={transcript} />}
           
           {/* 곰 캐릭터 */}
           <div
@@ -223,7 +288,7 @@ const Translate = ({ onNavigate }) => {
                  {status === 'converting' && '🤟 수화로 변환 중...'}
                  {status === 'signing' && '✅ 수화 변환 완료!'}
               </p>
-              {message && status !== 'ready' && status !== 'converting' && status !== 'signing' && (
+              {transcript && (status === 'ready' || status === 'converting' || status === 'signing') && (
                 <p
                   style={{
                     fontSize: 'var(--font-size-base)',
@@ -232,7 +297,7 @@ const Translate = ({ onNavigate }) => {
                     fontStyle: 'italic'
                   }}
                 >
-                  "{message}"
+                  "{transcript}"
                 </p>
               )}
             </div>
@@ -254,12 +319,28 @@ const Translate = ({ onNavigate }) => {
                 style={{
                   flex: 1,
                   maxWidth: '200px',
-                  minWidth: '160px'
+                  minWidth: '160px',
+                  backgroundColor: listening ? 'var(--error)' : 
+                                  status === 'ready' ? 'var(--success)' : 
+                                  'var(--primary)',
+                  animation: listening ? 'pulse 2s infinite' : 'none'
                 }}
-                aria-label="대화 듣기"
+                aria-label={
+                  status === 'ready' ? '다시 듣기' :
+                  listening ? '음성 인식 중지' :
+                  '대화 듣기'
+                }
               >
-                <span style={{ fontSize: '20px' }}>🎤</span>
-                <span>대화 듣기</span>
+                <span style={{ fontSize: '20px' }}>
+                  {status === 'ready' ? '🔄' : 
+                   listening ? '⏹️' : 
+                   '🎤'}
+                </span>
+                <span>
+                  {status === 'ready' ? '다시 듣기' :
+                   listening ? '인식 중지' :
+                   '대화 듣기'}
+                </span>
               </button>
 
               {/* 수화로 변환 버튼 */}
@@ -291,6 +372,20 @@ const Translate = ({ onNavigate }) => {
       <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
         <TurnLight status={status} />
       </div>
+
+      {/* 스타일 추가 */}
+      <style>
+        {`
+          @keyframes pulse {
+            0%, 100% { 
+              box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+            }
+            50% { 
+              box-shadow: 0 0 30px rgba(255, 68, 68, 0.6);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
