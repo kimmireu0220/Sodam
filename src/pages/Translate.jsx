@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import TurnLight from '../components/TurnLight';
+import SpeechBubble from '../components/SpeechBubble';
 import bearPointing from '../assets/bear-pointing.png';
 import bearThinking from '../assets/bear-thinking.png';
 import bearSuggest from '../assets/bear-suggest.png';
@@ -34,8 +35,6 @@ const Translate = ({ onNavigate }) => {
 
   // 상태 전환 로직
   const handleMicClick = () => {
-    console.log('handleMicClick called, current status:', status); // 디버깅용
-    
     if (status === 'ready') {
       // ready 상태에서 다시 클릭하면 idle로 복귀
       setStatus('idle');
@@ -47,31 +46,24 @@ const Translate = ({ onNavigate }) => {
     setStatus('listening');
     
     setTimeout(() => {
-      console.log('Status changed to analyzing'); // 디버깅용
       setStatus('analyzing');
-    }, 800);
+    }, 2000); // 2초로 늘림
     
     setTimeout(() => {
-      console.log('Status changed to ready'); // 디버깅용
       setStatus('ready');
       setMessage('안녕하세요. 반갑습니다.');
-    }, 1600);
+    }, 4000); // 4초로 늘림
   };
 
   const handleTranslateClick = () => {
     if (status === 'ready') {
-      // 먼저 완료 메시지 표시
-      onNavigate('수화 변환이 완료되었습니다!');
+      // 변환 중 상태로 변경 (캐릭터 이미지는 그대로 유지)
+      setStatus('converting');
       
-      // 메시지 표시 후 수화 변환 상태로 변경
+      // 2초 후 완료 상태로 변경 (캐릭터 이미지 변경)
       setTimeout(() => {
         setStatus('signing');
-        // 2초 후 초기 상태로 복귀
-        setTimeout(() => {
-          setStatus('idle');
-          setMessage('');
-        }, 2000);
-      }, 500);
+      }, 2000);
     }
   };
 
@@ -128,29 +120,42 @@ const Translate = ({ onNavigate }) => {
           </p>
         </div>
 
-        {/* 곰 캐릭터 */}
+        {/* 곰 캐릭터와 말풍선 */}
         <div
           style={{
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
             marginBottom: 'var(--spacing-lg)'
           }}
         >
-          <img
-            src={
-              status === 'ready' ? bearSuggest :
-              status === 'analyzing' ? bearThinking :
-              status === 'signing' ? bearSign :
-              bearPointing
-            }
-            alt="소담 곰 캐릭터"
+          {/* ready, converting, signing 상태일 때 말풍선 표시 */}
+          {(status === 'ready' || status === 'converting' || status === 'signing') && <SpeechBubble message={message} />}
+          
+          {/* 곰 캐릭터 */}
+          <div
             style={{
-              width: '200px',
-              height: 'auto',
-              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))',
-              transition: 'all 0.3s ease'
+              display: 'flex',
+              justifyContent: 'center'
             }}
-          />
+          >
+            <img
+              src={
+                status === 'ready' ? bearSuggest :
+                status === 'analyzing' ? bearThinking :
+                status === 'converting' ? bearSuggest : // converting 상태에서는 ready와 같은 이미지 유지
+                status === 'signing' ? bearSign :
+                bearPointing
+              }
+              alt="소담 곰 캐릭터"
+              style={{
+                width: '200px',
+                height: 'auto',
+                filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))',
+                transition: 'all 0.3s ease'
+              }}
+            />
+          </div>
         </div>
 
         {/* 메인 기능 카드 */}
@@ -186,12 +191,14 @@ const Translate = ({ onNavigate }) => {
                                 status === 'listening' ? '#FFF3E0' : 
                                 status === 'analyzing' ? '#E3F2FD' : 
                                 status === 'ready' ? '#E8F5E8' : 
-                                status === 'signing' ? '#F3E5F5' : '#F5F5F5',
+                                status === 'converting' ? '#F3E5F5' :
+                                status === 'signing' ? '#E8F5E8' : '#F5F5F5',
                  border: status === 'idle' ? '1px solid #E0E0E0' :
                         status === 'listening' ? '1px solid #FFB84D' :
                         status === 'analyzing' ? '1px solid #2196F3' :
                         status === 'ready' ? '1px solid #4CAF50' : 
-                        status === 'signing' ? '1px solid #9C27B0' : '1px solid #E0E0E0',
+                        status === 'converting' ? '1px solid #9C27B0' :
+                        status === 'signing' ? '1px solid #4CAF50' : '1px solid #E0E0E0',
                 margin: 'var(--spacing-md) 0',
                 textAlign: 'center'
               }}
@@ -204,7 +211,8 @@ const Translate = ({ onNavigate }) => {
                           status === 'listening' ? '#E65100' : 
                           status === 'analyzing' ? '#1565C0' : 
                           status === 'ready' ? '#2E7D32' : 
-                          status === 'signing' ? '#7B1FA2' : '#666666',
+                          status === 'converting' ? '#7B1FA2' :
+                          status === 'signing' ? '#2E7D32' : '#666666',
                   margin: '0 0 var(--spacing-sm) 0'
                 }}
               >
@@ -212,9 +220,10 @@ const Translate = ({ onNavigate }) => {
                  {status === 'listening' && '🔊 음성을 듣고 있습니다...'}
                  {status === 'analyzing' && '🤔 음성을 분석하고 있습니다...'}
                  {status === 'ready' && '✅ 음성 인식 완료!'}
-                 {status === 'signing' && '🤟 수화로 변환 중...'}
+                 {status === 'converting' && '🤟 수화로 변환 중...'}
+                 {status === 'signing' && '✅ 수화 변환 완료!'}
               </p>
-              {message && (
+              {message && status !== 'ready' && status !== 'converting' && status !== 'signing' && (
                 <p
                   style={{
                     fontSize: 'var(--font-size-base)',
