@@ -30,8 +30,7 @@ import {
   addCustomPhrase, 
   updateCustomPhrase, 
   deleteCustomPhrase, 
-  reorderCustomPhrases,
-  updatePhraseUsage
+  reorderCustomPhrases
 } from '../utils/storage';
 
 const CATEGORIES = ['전체', '업무', '일상', '긴급'];
@@ -211,18 +210,6 @@ const CustomPhrasesSection = () => {
     }
   };
 
-  // 사용 횟수 증가 (데모용)
-  const handleUsageIncrease = (phrase) => {
-    try {
-      const success = updatePhraseUsage(phrase.id);
-      if (success) {
-        loadPhrases();
-        makeAnnouncement(`"${phrase.text}" 사용 횟수가 증가했습니다.`);
-      }
-    } catch (error) {
-      console.error('사용 횟수 업데이트 중 오류:', error);
-    }
-  };
 
   // 드래그앤드롭 이벤트 핸들러
   const handleDragStart = (e, phrase, index) => {
@@ -283,48 +270,6 @@ const CustomPhrasesSection = () => {
     setDragOverIndex(null);
   };
 
-  // 키보드로 순서 변경
-  const handleMoveUp = (phrase, currentIndex) => {
-    if (currentIndex === 0) return;
-
-    try {
-      const newOrder = [...phrases];
-      const actualIndex = newOrder.findIndex(p => p.id === phrase.id);
-      
-      if (actualIndex > 0) {
-        [newOrder[actualIndex], newOrder[actualIndex - 1]] = [newOrder[actualIndex - 1], newOrder[actualIndex]];
-        
-        const success = reorderCustomPhrases(newOrder);
-        if (success) {
-          loadPhrases();
-          makeAnnouncement(`"${phrase.text}"가 위로 이동되었습니다.`);
-        }
-      }
-    } catch (error) {
-      console.error('순서 변경 중 오류:', error);
-    }
-  };
-
-  const handleMoveDown = (phrase, currentIndex) => {
-    if (currentIndex === filteredAndSortedPhrases.length - 1) return;
-
-    try {
-      const newOrder = [...phrases];
-      const actualIndex = newOrder.findIndex(p => p.id === phrase.id);
-      
-      if (actualIndex < newOrder.length - 1) {
-        [newOrder[actualIndex], newOrder[actualIndex + 1]] = [newOrder[actualIndex + 1], newOrder[actualIndex]];
-        
-        const success = reorderCustomPhrases(newOrder);
-        if (success) {
-          loadPhrases();
-          makeAnnouncement(`"${phrase.text}"가 아래로 이동되었습니다.`);
-        }
-      }
-    } catch (error) {
-      console.error('순서 변경 중 오류:', error);
-    }
-  };
 
   // 접근성을 위한 알림 함수
   const makeAnnouncement = (message) => {
@@ -465,7 +410,7 @@ const CustomPhrasesSection = () => {
                   height: '16px'
                 }}
               />
-              ⭐ 즐겨찾기만
+              즐겨찾기만
             </label>
 
             {/* 정렬 옵션 */}
@@ -646,91 +591,54 @@ const CustomPhrasesSection = () => {
                     flexShrink: 0
                   }}
                 >
-                  {/* 키보드 순서 변경 버튼 */}
-                  {sortBy === 'usage' && selectedCategory === '전체' && !showFavoritesOnly && (
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '2px'
-                      }}
-                    >
-                      <button
-                        className="btn"
-                        onClick={() => handleMoveUp(phrase, index)}
-                        disabled={index === 0}
-                        style={{
-                          minWidth: '32px',
-                          minHeight: '20px',
-                          padding: '2px',
-                          fontSize: '12px',
-                          backgroundColor: 'transparent',
-                          color: 'var(--text-secondary)'
-                        }}
-                        aria-label={`"${phrase.text}" 위로 이동`}
-                      >
-                        ▲
-                      </button>
-                      <button
-                        className="btn"
-                        onClick={() => handleMoveDown(phrase, index)}
-                        disabled={index === filteredAndSortedPhrases.length - 1}
-                        style={{
-                          minWidth: '32px',
-                          minHeight: '20px',
-                          padding: '2px',
-                          fontSize: '12px',
-                          backgroundColor: 'transparent',
-                          color: 'var(--text-secondary)'
-                        }}
-                        aria-label={`"${phrase.text}" 아래로 이동`}
-                      >
-                        ▼
-                      </button>
-                    </div>
-                  )}
 
-                  {/* 사용 횟수 증가 버튼 (데모용) */}
-                  <button
-                    className="btn btn-outline"
-                    onClick={() => handleUsageIncrease(phrase)}
-                    style={{
-                      minWidth: '32px',
-                      padding: 'var(--spacing-xs)',
-                      fontSize: 'var(--font-size-sm)'
-                    }}
-                    aria-label={`"${phrase.text}" 사용하기`}
-                    title="사용 횟수 증가 (데모)"
-                  >
-                    사용
-                  </button>
 
                   {/* 즐겨찾기 토글 */}
                   <button
                     className="btn"
                     onClick={() => handleFavoriteToggle(phrase)}
                     style={{
-                      minWidth: '32px',
+                      minWidth: '40px',
+                      minHeight: '40px',
                       padding: 'var(--spacing-xs)',
                       backgroundColor: 'transparent',
                       color: phrase.isFavorite ? '#FFD700' : 'var(--text-secondary)',
-                      fontSize: '16px'
+                      fontSize: '18px',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                     aria-label={phrase.isFavorite ? '즐겨찾기에서 제거' : '즐겨찾기에 추가'}
                   >
                     {phrase.isFavorite ? '⭐' : '☆'}
                   </button>
 
+                  {/* 버튼 사이 여백 */}
+                  <div style={{ width: 'var(--spacing-sm)' }}></div>
+
                   {/* 수정 버튼 */}
                   <button
-                    className="btn btn-secondary"
+                    className="btn"
                     onClick={() => openEditModal(phrase)}
                     style={{
-                      minWidth: '44px',
-                      padding: 'var(--spacing-xs)'
+                      minWidth: '50px',
+                      minHeight: '36px',
+                      padding: 'var(--spacing-xs) var(--spacing-sm)',
+                      backgroundColor: '#F3F4F6',
+                      color: 'var(--text-primary)',
+                      border: '1px solid #D1D5DB',
+                      borderRadius: 'var(--radius)',
+                      fontSize: 'var(--font-size-sm)',
+                      fontWeight: '500',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 'var(--spacing-xs)'
                     }}
                     aria-label={`"${phrase.text}" 수정`}
                   >
+                    <span aria-hidden="true">✏️</span>
                     수정
                   </button>
 
@@ -739,13 +647,23 @@ const CustomPhrasesSection = () => {
                     className="btn"
                     onClick={() => handleDelete(phrase)}
                     style={{
-                      minWidth: '44px',
-                      padding: 'var(--spacing-xs)',
-                      backgroundColor: 'var(--error)',
-                      color: 'var(--white)'
+                      minWidth: '50px',
+                      minHeight: '36px',
+                      padding: 'var(--spacing-xs) var(--spacing-sm)',
+                      backgroundColor: '#FEE2E2',
+                      color: '#DC2626',
+                      border: '1px solid #FECACA',
+                      borderRadius: 'var(--radius)',
+                      fontSize: 'var(--font-size-sm)',
+                      fontWeight: '500',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 'var(--spacing-xs)'
                     }}
                     aria-label={`"${phrase.text}" 삭제`}
                   >
+                    <span aria-hidden="true">🗑️</span>
                     삭제
                   </button>
                 </div>

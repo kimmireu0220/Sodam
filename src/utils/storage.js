@@ -191,21 +191,6 @@ export const updateDailyUsage = (date = null, count = 1) => {
  * 개인 상용구 관련 함수들
  */
 
-/**
- * 상용구 사용 횟수 업데이트
- * @param {number} phraseId - 상용구 ID
- */
-export const updatePhraseUsage = (phraseId) => {
-  return updateItem('customPhrases', (phrases) => {
-    if (!Array.isArray(phrases)) return DEFAULT_CUSTOM_PHRASES;
-    
-    return phrases.map(phrase => 
-      phrase.id === phraseId 
-        ? { ...phrase, usageCount: (phrase.usageCount || 0) + 1 }
-        : phrase
-    );
-  }, DEFAULT_CUSTOM_PHRASES);
-};
 
 /**
  * 새 상용구 추가
