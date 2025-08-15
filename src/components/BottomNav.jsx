@@ -16,13 +16,14 @@
  * - 마이페이지에서 사용자 정보 표시
  */
 import { useNavigate } from 'react-router-dom';
+import signLanguageIcon from '../assets/sign-language-icon.png';
 
 const BottomNav = ({ currentPath, onNavigate }) => {
   const navigate = useNavigate();
 
   const navItems = [
     { path: '/home', label: '홈', icon: '🏠' },
-    { path: '/translate', label: '수화 변환', icon: '🤟' },
+    { path: '/translate', label: '수화 변환', icon: 'image', imageSrc: signLanguageIcon },
     { path: '/mypage', label: '마이 페이지', icon: '👤' }
   ];
 
@@ -75,12 +76,24 @@ const BottomNav = ({ currentPath, onNavigate }) => {
             aria-label={`${item.label}로 이동`}
             aria-current={isActive ? 'page' : undefined}
           >
-            <span style={{
-              fontSize: '24px',
-              filter: isActive ? 'none' : 'grayscale(50%)'
-            }}>
-              {item.icon}
-            </span>
+            {item.icon === 'image' ? (
+              <img
+                src={item.imageSrc}
+                alt="수화 변환"
+                style={{
+                  width: '24px',
+                  height: '24px',
+                  filter: isActive ? 'none' : 'grayscale(50%)'
+                }}
+              />
+            ) : (
+              <span style={{
+                fontSize: '24px',
+                filter: isActive ? 'none' : 'grayscale(50%)'
+              }}>
+                {item.icon}
+              </span>
+            )}
             <span style={{
               fontSize: 'var(--font-size-sm)',
               textAlign: 'center'

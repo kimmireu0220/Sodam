@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import bear from '../assets/bear-new.png';
+import signLanguageIcon from '../assets/sign-language-icon.png';
 
 const Home = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -41,7 +42,8 @@ const Home = ({ onNavigate }) => {
       title: '수화 변환',
       subtitle: '대화 듣기',
       description: '음성을 실시간으로 수화로 변환합니다',
-      icon: '🎤',
+      icon: 'image',
+      imageSrc: signLanguageIcon,
       path: '/translate',
       color: 'var(--primary)'
     },
@@ -190,7 +192,19 @@ const Home = ({ onNavigate }) => {
                     flexShrink: 0
                   }}
                 >
-                  {card.icon}
+                  {card.icon === 'image' ? (
+                    <img
+                      src={card.imageSrc}
+                      alt={card.title}
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        filter: 'brightness(0) invert(1)'
+                      }}
+                    />
+                  ) : (
+                    card.icon
+                  )}
                 </div>
 
                 {/* 텍스트 */}
