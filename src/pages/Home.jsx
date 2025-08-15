@@ -82,14 +82,14 @@ const Home = ({ onNavigate }) => {
           padding: 'var(--spacing-lg)',
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--spacing-xl)'
+          gap: 'var(--spacing-lg)'
         }}
       >
         {/* 환영 메시지 */}
         <div
           style={{
             textAlign: 'center',
-            marginBottom: 'var(--spacing-lg)'
+            marginBottom: 'var(--spacing-md)'
           }}
         >
           <h1
@@ -119,7 +119,7 @@ const Home = ({ onNavigate }) => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            marginBottom: 'var(--spacing-xl)'
+            marginBottom: 'var(--spacing-lg)'
           }}
         >
           <img

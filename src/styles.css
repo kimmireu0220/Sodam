@@ -159,6 +159,16 @@ body {
   animation: shake 0.5s ease-in-out;
 }
 
+/* Glow Animation */
+@keyframes glow {
+  0% { 
+    filter: brightness(1) drop-shadow(0 0 5px rgba(255, 255, 0, 0.5));
+  }
+  100% { 
+    filter: brightness(1.2) drop-shadow(0 0 15px rgba(255, 255, 0, 0.8));
+  }
+}
+
 /* Focus Styles for Accessibility */
 *:focus-visible {
   outline: 2px solid var(--primary);

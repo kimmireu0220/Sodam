@@ -20,8 +20,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TurnLight from '../components/TurnLight';
-import AvatarCard from '../components/AvatarCard';
-import MicButton from '../components/MicButton';
+import bearWaiting from '../assets/331cbc990a5fc722e8e6b5911bb66a3d154e0103.png';
 
 const Translate = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -61,13 +60,41 @@ const Translate = ({ onNavigate }) => {
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: 'var(--background)',
+        backgroundColor: '#F5F5DC', // 베이지 배경색
         display: 'flex',
         flexDirection: 'column'
       }}
     >
-      {/* 상단 상태 표시 */}
-      <TurnLight status={status} />
+      {/* 상단 헤더 */}
+      <div
+        style={{
+          background: 'var(--white)',
+          borderRadius: '0 0 20px 20px',
+          padding: 'var(--spacing-md) var(--spacing-lg)',
+          margin: '0 var(--spacing-md)',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--spacing-sm)'
+        }}
+      >
+        <button
+          onClick={() => navigate('/home')}
+          style={{
+            background: 'none',
+            border: 'none',
+            fontSize: '20px',
+            cursor: 'pointer',
+            padding: '4px'
+          }}
+          aria-label="뒤로 가기"
+        >
+          ←
+        </button>
+        <span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>
+          대기 중
+        </span>
+      </div>
 
       {/* 메인 콘텐츠 */}
       <div
@@ -82,7 +109,43 @@ const Translate = ({ onNavigate }) => {
         }}
       >
         {/* 곰 캐릭터 카드 */}
-        <AvatarCard status={status} message={message} />
+        <div
+          style={{
+            background: 'var(--white)',
+            borderRadius: '20px',
+            padding: 'var(--spacing-xl)',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+            textAlign: 'center',
+            maxWidth: '320px',
+            width: '100%'
+          }}
+        >
+          {/* 곰 캐릭터 이미지 */}
+          <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+            <img
+              src={bearWaiting}
+              alt="곰 캐릭터"
+              style={{
+                width: '120px',
+                height: 'auto',
+                borderRadius: '10px'
+              }}
+            />
+          </div>
+          
+          {/* 메시지 텍스트 */}
+          <p
+            style={{
+              fontSize: 'var(--font-size-lg)',
+              fontWeight: '600',
+              color: 'var(--text-primary)',
+              margin: 0,
+              lineHeight: '1.4'
+            }}
+          >
+            대화 듣기를 통해 실시간 수화 통역을 시작하세요!
+          </p>
+        </div>
 
         {/* 하단 버튼들 */}
         <div
@@ -91,18 +154,42 @@ const Translate = ({ onNavigate }) => {
             flexDirection: 'column',
             gap: 'var(--spacing-md)',
             width: '100%',
-            maxWidth: '300px'
+            maxWidth: '320px'
           }}
         >
-          {/* 마이크 버튼 */}
-          <MicButton status={status} onClick={handleMicClick} />
+          {/* 대화 듣기 버튼 */}
+          <button
+            onClick={handleMicClick}
+            className="btn btn-primary"
+            style={{
+              background: '#FF6B35', // 오렌지 색상
+              fontSize: 'var(--font-size-lg)',
+              fontWeight: '600',
+              padding: 'var(--spacing-md) var(--spacing-lg)',
+              borderRadius: 'var(--radius)',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--spacing-sm)',
+              justifyContent: 'center',
+              color: 'var(--white)',
+              minWidth: '160px'
+            }}
+            aria-label="대화 듣기"
+          >
+            <span style={{ fontSize: '20px' }}>🎤</span>
+            <span>대화 듣기</span>
+          </button>
 
-          {/* 수화 변환 버튼 */}
+          {/* 수화로 변환 버튼 */}
           <button
             onClick={handleTranslateClick}
             disabled={status !== 'ready'}
             className="btn btn-secondary"
             style={{
+              background: '#F0F0F0', // 연한 베이지 색상
               fontSize: 'var(--font-size-lg)',
               fontWeight: '600',
               padding: 'var(--spacing-md) var(--spacing-lg)',
@@ -115,48 +202,23 @@ const Translate = ({ onNavigate }) => {
               gap: 'var(--spacing-sm)',
               justifyContent: 'center',
               minWidth: '160px',
-              opacity: status === 'ready' ? 1 : 0.5
+              opacity: status === 'ready' ? 1 : 0.5,
+              color: 'var(--text-primary)'
             }}
-
             aria-label="수화로 변환"
           >
-            <span style={{ fontSize: '24px' }}>🤟</span>
+            <span style={{ fontSize: '20px' }}>🤟</span>
             <span>수화로 변환</span>
           </button>
         </div>
       </div>
 
-      {/* 뒤로 가기 버튼 */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 'var(--spacing-md)',
-          left: 'var(--spacing-md)',
-          zIndex: 10
-        }}
-      >
-        <button
-          onClick={() => navigate('/home')}
-          className="btn"
-          style={{
-            background: 'var(--white)',
-            border: 'none',
-            borderRadius: '50%',
-            width: '44px',
-            height: '44px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: 'var(--shadow)',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease'
-          }}
-
-          aria-label="뒤로 가기"
-        >
-          ←
-        </button>
-      </div>
+      {/* 상태 표시 (필요시) */}
+      {status !== 'idle' && (
+        <div style={{ position: 'absolute', top: '20px', right: '20px' }}>
+          <TurnLight status={status} />
+        </div>
+      )}
     </div>
   );
 };
