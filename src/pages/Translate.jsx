@@ -288,18 +288,7 @@ const Translate = ({ onNavigate }) => {
                  {status === 'converting' && '🤟 수화로 변환 중...'}
                  {status === 'signing' && '✅ 수화 변환 완료!'}
               </p>
-              {transcript && (status === 'ready' || status === 'converting' || status === 'signing') && (
-                <p
-                  style={{
-                    fontSize: 'var(--font-size-base)',
-                    color: 'var(--text-secondary)',
-                    margin: 0,
-                    fontStyle: 'italic'
-                  }}
-                >
-                  "{transcript}"
-                </p>
-              )}
+
             </div>
 
             {/* 버튼들 */}
