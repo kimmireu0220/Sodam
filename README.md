@@ -1,13 +1,80 @@
-# React + Vite
+# Sodam (소담)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**손으로 전하는 소중한 이야기**
 
-Currently, two official plugins are available:
+Sodam은 수화 통역 서비스의 사용자 경험을 시연하기 위한 프로토타입 앱입니다. 음성과 텍스트를 수화로 변환하는 기능을 제공하여, 청각 장애인과의 소통을 돕는 대화 보조 도구입니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 주요 기능
 
-## Expanding the ESLint configuration
+### 🎤 음성-수화 변환
+- 실시간 음성 인식 및 수화 변환
+- 상태별 시각적 피드백 (듣는 중, 분석 중, 준비 완료)
+- 친근한 곰 캐릭터를 통한 직관적인 인터페이스
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# Sodam
+### ✏️ 텍스트-수화 변환
+- 직접 텍스트 입력을 통한 수화 변환
+- 자주 사용하는 문구 빠른 선택 기능
+- 큰 글자로 메시지 표시
+
+### 🏠 사용자 친화적 인터페이스
+- 깔끔하고 직관적인 디자인
+- 접근성을 고려한 UI/UX
+- 모바일 친화적 반응형 디자인
+
+## 📱 화면 구성
+
+### 스플래시 화면
+- 앱 로고와 환영 메시지
+- 자동 홈 화면 전환 (2초 후)
+
+### 홈 화면
+- 주요 기능 카드 3개
+- 수화 변환, 텍스트 입력, 마이페이지
+- 하단 네비게이션
+
+### 수화 변환 화면
+- 음성 인식 상태 표시
+- 곰 캐릭터 애니메이션
+- 마이크 버튼 및 수화 변환 버튼
+
+### 텍스트 입력 화면
+- 텍스트 입력창
+- 빠른 응답 문구 선택
+- 전송 후 큰 글자 모달
+
+### 앱 정보 화면
+- 프로젝트 소개
+- 고지사항 및 주의사항
+
+## 🎨 디자인 특징
+
+- **색상**: 따뜻한 주황색과 베이지 톤
+- **캐릭터**: 친근한 곰 캐릭터
+- **접근성**: 포커스 링, 명도 대비 준수
+- **애니메이션**: 부드러운 전환 효과
+
+## ⚠️ 중요 안내
+
+**이 앱은 데모 목적으로 제작되었습니다.**
+
+- 통역사 대체가 아닙니다
+- 개인정보를 수집하지 않습니다
+- 실제 기능은 구현되지 않은 프로토타입입니다
+- 순수하게 UI/UX 시연 목적으로만 사용됩니다
+
+## 🚀 실행 방법
+
+```bash
+npm install
+npm run dev
+```
+
+브라우저에서 `http://localhost:3000`으로 접속하여 앱을 확인할 수 있습니다.
+
+## 📄 라이선스
+
+이 프로젝트는 교육 및 시연 목적으로 제작되었습니다.
+
+---
+
+**Sodam Team** | 2024년 1월
