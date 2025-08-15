@@ -17,7 +17,7 @@
  * - 테마 설정
  */
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Splash from './pages/Splash';
 import Home from './pages/Home';
 import Translate from './pages/Translate';

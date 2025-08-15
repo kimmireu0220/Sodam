@@ -23,14 +23,15 @@ import logo from '../assets/sodam-logo.png';
 const Splash = ({ onStart }) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // 2초 후 자동으로 홈으로 이동
-    const timer = setTimeout(() => {
-      navigate('/home');
-    }, 2000);
+  // 자동 전환 기능 제거 - 사용자가 직접 버튼을 눌러야만 이동
+  // useEffect(() => {
+  //   // 2초 후 자동으로 홈으로 이동
+  //   const timer = setTimeout(() => {
+  //     navigate('/home');
+  //   }, 2000);
 
-    return () => clearTimeout(timer);
-  }, [navigate]);
+  //   return () => clearTimeout(timer);
+  // }, [navigate]);
 
   const handleStartClick = () => {
     navigate('/home');
@@ -69,18 +70,6 @@ const Splash = ({ onStart }) => {
             filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))'
           }}
         />
-        
-        <h1
-          style={{
-            fontSize: 'var(--font-size-3xl)',
-            fontWeight: '700',
-            color: 'var(--primary)',
-            textAlign: 'center',
-            margin: 0
-          }}
-        >
-          소담
-        </h1>
         
         <p
           style={{

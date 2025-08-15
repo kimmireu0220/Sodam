@@ -12,12 +12,71 @@
  * - 큰 글자로 표시된 텍스트
  * - 닫기 버튼
  * - 배경 오버레이
+ * - TTS 기능
  * 
  * 향후 연동 지점:
  * - TTS 기능 연동
  * - 텍스트 크기 조절 기능
  */
+import { useState, useEffect } from 'react';
+import ttsService from '../utils/tts';
+
 const BigTextCard = ({ text, isVisible, onClose }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [buttonText, setButtonText] = useState('음성으로 전달');
+
+  // TTS 상태 변경 리스너
+  useEffect(() => {
+    const handleStateChange = (state, error) => {
+      switch (state) {
+        case 'playing':
+          setIsPlaying(true);
+          setButtonText('재생 중...');
+          break;
+        case 'stopped':
+          setIsPlaying(false);
+          setButtonText('음성으로 전달');
+          break;
+        case 'error':
+          setIsPlaying(false);
+          setButtonText('음성으로 전달');
+          alert(`음성 재생 오류: ${error || '알 수 없는 오류'}`);
+          break;
+      }
+    };
+
+    ttsService.onStateChange = handleStateChange;
+
+    return () => {
+      ttsService.onStateChange = null;
+    };
+  }, []);
+
+  // 모달이 닫힐 때 음성 중지
+  useEffect(() => {
+    if (!isVisible && isPlaying) {
+      ttsService.stop();
+    }
+  }, [isVisible, isPlaying]);
+
+  const handleSpeakClick = () => {
+    if (isPlaying) {
+      // 재생 중이면 중지
+      ttsService.stop();
+    } else {
+      // 재생 시작
+      const success = ttsService.speak(text, {
+        rate: 0.9,    // 속도 (조금 느리게)
+        pitch: 1.0,   // 피치 (기본)
+        volume: 1.0   // 볼륨 (최대)
+      });
+
+      if (!success) {
+        alert('음성 재생을 지원하지 않는 브라우저입니다.');
+      }
+    }
+  };
+
   if (!isVisible) return null;
 
   return (
@@ -126,14 +185,28 @@ const BigTextCard = ({ text, isVisible, onClose }) => {
             }}
           >
             <button
-              onClick={() => {
-                // TODO: TTS/아바타 연동 예정
-                alert('곧 제공될 예정입니다');
+              onClick={handleSpeakClick}
+              disabled={!text.trim()}
+              className={`btn ${isPlaying ? 'btn-secondary' : 'btn-primary'}`}
+              style={{ 
+                minWidth: '120px',
+                opacity: text.trim() ? 1 : 0.5,
+                cursor: text.trim() ? 'pointer' : 'not-allowed',
+                position: 'relative'
               }}
-              className="btn btn-primary"
-              style={{ minWidth: '120px' }}
             >
-              음성으로 전달
+              {isPlaying && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    left: '8px',
+                    animation: 'pulse 1s infinite'
+                  }}
+                >
+                  🔊
+                </span>
+              )}
+              {buttonText}
             </button>
           </div>
         </div>
@@ -155,6 +228,11 @@ const BigTextCard = ({ text, isVisible, onClose }) => {
               opacity: 1;
               transform: scale(1) translateY(0);
             }
+          }
+
+          @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
           }
         `}
       </style>
