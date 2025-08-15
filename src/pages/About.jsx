@@ -91,7 +91,7 @@ const About = ({ onNavigate }) => {
             src={logo}
             alt="소담 로고"
             style={{
-              width: '70px',
+              width: '120px',
               height: 'auto'
             }}
           />

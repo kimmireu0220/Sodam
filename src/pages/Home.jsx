@@ -19,7 +19,7 @@
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
-import bear from '../assets/bear.svg';
+import bear from '../assets/bear-new.png';
 
 const Home = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -124,8 +124,8 @@ const Home = ({ onNavigate }) => {
             src={bear}
             alt="소담 곰 캐릭터"
             style={{
-              width: '120px',
-              height: '120px',
+              width: '150px',
+              height: 'auto',
               filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))'
             }}
           />

@@ -64,7 +64,7 @@ const Splash = ({ onStart }) => {
           src={logo}
           alt="소담 로고"
           style={{
-            width: '150px',
+            width: '280px',
             height: 'auto',
             filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))'
           }}

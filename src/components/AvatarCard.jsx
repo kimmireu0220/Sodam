@@ -16,7 +16,7 @@
  * - 실제 수화 애니메이션 연동
  * - 음성 인식 결과에 따른 동적 표현
  */
-import bear from '../assets/bear.svg';
+import bear from '../assets/bear-new.png';
 
 const AvatarCard = ({ status, message }) => {
   const getStatusIcon = () => {
@@ -77,8 +77,8 @@ const AvatarCard = ({ status, message }) => {
           src={bear}
           alt="소담 곰 캐릭터"
           style={{
-            width: '120px',
-            height: '120px',
+            width: '140px',
+            height: 'auto',
             filter: status === 'idle' ? 'grayscale(20%)' : 'none',
             transition: 'all 0.3s ease'
           }}

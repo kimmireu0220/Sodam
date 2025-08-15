@@ -54,7 +54,7 @@ const Header = ({ onMenuClick }) => {
         <img 
           src={logo} 
           alt="소담 로고" 
-          style={{ height: '35px', width: 'auto' }}
+          style={{ height: '55px', width: 'auto' }}
         />
       </button>
 
