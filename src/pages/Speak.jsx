@@ -94,7 +94,7 @@ const Speak = ({ onNavigate }) => {
               lineHeight: '1.6'
             }}
           >
-            텍스트를 입력하여 음성으로 전달합니다
+            직접 입력 또는 상용구를 선택하여 음성으로 전달합니다
           </p>
         </div>
 
@@ -117,17 +117,20 @@ const Speak = ({ onNavigate }) => {
           />
         </div>
 
-        {/* 텍스트 입력 카드 */}
+        {/* 직접 입력 카드 */}
         <div className="card">
           <h3
             style={{
               fontSize: 'var(--font-size-lg)',
               fontWeight: '600',
               color: 'var(--text-primary)',
-              marginBottom: 'var(--spacing-md)'
+              marginBottom: 'var(--spacing-md)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--spacing-sm)'
             }}
           >
-            메시지 입력
+            ✏️ 직접 입력
           </h3>
           
           <div
@@ -200,8 +203,33 @@ const Speak = ({ onNavigate }) => {
           </p>
         </div>
 
-        {/* 빠른 응답 */}
-        <QuickPhrases onPhraseClick={handlePhraseClick} />
+        {/* 상용구 선택 카드 */}
+        <div className="card">
+          <h3
+            style={{
+              fontSize: 'var(--font-size-lg)',
+              fontWeight: '600',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--spacing-md)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--spacing-sm)'
+            }}
+          >
+            📝 상용구 선택
+          </h3>
+          <p
+            style={{
+              fontSize: 'var(--font-size-sm)',
+              color: 'var(--text-secondary)',
+              marginBottom: 'var(--spacing-md)',
+              lineHeight: '1.5'
+            }}
+          >
+            자주 사용하는 문구를 선택하여 빠르게 입력할 수 있습니다
+          </p>
+          <QuickPhrases onPhraseClick={handlePhraseClick} />
+        </div>
       </div>
 
       {/* 하단 네비게이션 */}

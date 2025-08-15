@@ -34,17 +34,7 @@ const QuickPhrases = ({ onPhraseClick }) => {
         margin: 'var(--spacing-md)'
       }}
     >
-      <h3
-        style={{
-          fontSize: 'var(--font-size-lg)',
-          fontWeight: '600',
-          color: 'var(--text-primary)',
-          marginBottom: 'var(--spacing-md)',
-          textAlign: 'center'
-        }}
-      >
-        빠른 응답
-      </h3>
+
       
       <div
         style={{

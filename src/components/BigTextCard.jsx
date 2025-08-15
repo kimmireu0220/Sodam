@@ -161,7 +161,7 @@ const BigTextCard = ({ text, isVisible, onClose }) => {
           {/* 큰 텍스트 */}
           <div
             style={{
-              fontSize: 'var(--font-size-3xl)',
+              fontSize: text.length > 50 ? 'var(--font-size-2xl)' : 'var(--font-size-3xl)',
               fontWeight: '700',
               color: 'var(--primary)',
               textAlign: 'center',
@@ -169,9 +169,12 @@ const BigTextCard = ({ text, isVisible, onClose }) => {
               wordBreak: 'keep-all',
               marginBottom: 'var(--spacing-xl)',
               minHeight: '120px',
+              maxHeight: '50vh',
+              overflow: 'auto',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              padding: 'var(--spacing-md)'
             }}
           >
             {text}

@@ -50,8 +50,8 @@ const Home = ({ onNavigate }) => {
     },
     {
       title: '텍스트로 말하기',
-      subtitle: '직접 입력',
-      description: '텍스트를 입력하여 음성으로 전달합니다',
+      subtitle: '직접 입력 + 상용구',
+      description: '직접 입력 또는 상용구를 선택하여 음성으로 전달합니다',
       icon: '✏️',
       path: '/speak',
       color: 'var(--secondary)'
