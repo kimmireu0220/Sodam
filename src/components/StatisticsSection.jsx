@@ -142,7 +142,7 @@ const StatisticsSection = () => {
   return (
     <div
       style={{
-        padding: 'var(--spacing-lg)',
+        padding: 'var(--spacing-mobile)',
         display: 'flex',
         flexDirection: 'column',
         gap: 'var(--spacing-lg)'
@@ -152,7 +152,7 @@ const StatisticsSection = () => {
       <div style={{ textAlign: 'center' }}>
         <h2
           style={{
-            fontSize: 'var(--font-size-xl)',
+            fontSize: 'var(--font-mobile-xl)',
             fontWeight: '700',
             color: 'var(--text-primary)',
             margin: '0 0 var(--spacing-sm) 0'
@@ -162,7 +162,7 @@ const StatisticsSection = () => {
         </h2>
         <p
           style={{
-            fontSize: 'var(--font-size-sm)',
+            fontSize: 'var(--font-mobile-sm)',
             color: 'var(--text-secondary)',
             margin: 0
           }}
@@ -173,9 +173,10 @@ const StatisticsSection = () => {
 
       {/* 통계 카드 그리드 */}
       <div
+        className="stats-grid"
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: '1fr',
           gap: 'var(--spacing-md)',
         }}
       >
@@ -471,21 +472,48 @@ const StatisticsSection = () => {
                     tabIndex={0}
                     role="button"
                     aria-label={`${item.dayName}요일: ${formatNumber(item.count)}회 사용`}
+                    className="chart-bar"
                     style={{
                       width: '100%',
-                      maxWidth: '24px',
-                      height: `${Math.max(item.percentage, 4)}px`,
+                      minWidth: '32px',
+                      maxWidth: '32px',
+                      height: `${Math.max(item.percentage, 24)}px`,
                       backgroundColor: item.count > 0 ? 'var(--primary)' : '#E5E7EB',
                       borderRadius: '4px 4px 0 0',
                       cursor: 'pointer',
-                      position: 'relative'
+                      position: 'relative',
+                      transition: 'all 0.2s ease'
                     }}
                     onFocus={(e) => {
-                      e.target.style.outline = '2px solid var(--primary)';
+                      e.target.style.outline = '3px solid var(--primary)';
                       e.target.style.outlineOffset = '2px';
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15)';
                     }}
                     onBlur={(e) => {
                       e.target.style.outline = 'none';
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                    onMouseEnter={(e) => {
+                      if (window.matchMedia('(hover: hover)').matches) {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.15)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (window.matchMedia('(hover: hover)').matches) {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = 'none';
+                      }
+                    }}
+                    onTouchStart={(e) => {
+                      e.target.style.transform = 'scale(0.95)';
+                    }}
+                    onTouchEnd={(e) => {
+                      setTimeout(() => {
+                        e.target.style.transform = 'scale(1)';
+                      }, 100);
                     }}
                     title={`${item.dayName}요일: ${formatNumber(item.count)}회`}
                   />
@@ -524,10 +552,8 @@ const StatisticsSection = () => {
         </h3>
         
         <div
+          className="stats-grid"
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: 'var(--spacing-md)',
             textAlign: 'center'
           }}
         >

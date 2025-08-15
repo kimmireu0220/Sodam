@@ -73,7 +73,7 @@ const MyPage = ({ onNavigate }) => {
         {/* 환영 섹션 */}
         <section
           style={{
-            padding: 'var(--spacing-lg)',
+            padding: 'var(--spacing-mobile)',
             textAlign: 'center'
           }}
         >
@@ -81,7 +81,7 @@ const MyPage = ({ onNavigate }) => {
           <div style={{ marginBottom: 'var(--spacing-lg)' }}>
             <h1
               style={{
-                fontSize: 'var(--font-size-2xl)',
+                fontSize: 'var(--font-mobile-2xl)',
                 fontWeight: '700',
                 color: 'var(--primary)',
                 margin: '0 0 var(--spacing-sm) 0'
@@ -91,7 +91,7 @@ const MyPage = ({ onNavigate }) => {
             </h1>
             <p
               style={{
-                fontSize: 'var(--font-size-lg)',
+                fontSize: 'var(--font-mobile-lg)',
                 color: 'var(--text-primary)',
                 margin: '0 0 var(--spacing-xs) 0',
                 lineHeight: '1.6'
@@ -101,7 +101,7 @@ const MyPage = ({ onNavigate }) => {
             </p>
             <p
               style={{
-                fontSize: 'var(--font-size-base)',
+                fontSize: 'var(--font-mobile-base)',
                 color: 'var(--text-secondary)',
                 margin: 0,
                 lineHeight: '1.5'
@@ -121,8 +121,8 @@ const MyPage = ({ onNavigate }) => {
           >
             <div
               style={{
-                width: '160px',
-                height: '160px',
+                width: 'clamp(120px, 20vw, 160px)',
+                height: 'clamp(120px, 20vw, 160px)',
                 borderRadius: '50%',
                 backgroundColor: 'var(--white)',
                 display: 'flex',
@@ -136,7 +136,7 @@ const MyPage = ({ onNavigate }) => {
                 src={bear}
                 alt="소담 곰 캐릭터 - 친근하게 손을 흔드는 모습"
                 style={{
-                  width: '120px',
+                  width: 'clamp(90px, 15vw, 120px)',
                   height: 'auto',
                   filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))'
                 }}
@@ -147,10 +147,8 @@ const MyPage = ({ onNavigate }) => {
           {/* 페이지 설명 */}
           <div className="card" style={{ maxWidth: '600px', margin: '0 auto' }}>
             <div
+              className="stats-grid"
               style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                gap: 'var(--spacing-md)',
                 textAlign: 'center'
               }}
             >
