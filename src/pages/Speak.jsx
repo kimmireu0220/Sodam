@@ -21,7 +21,7 @@ import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import QuickPhrases from '../components/QuickPhrases';
 import BigTextCard from '../components/BigTextCard';
-import bear from '../assets/bear-new.png';
+import bear from '../assets/bear-pointing.png';
 
 const Speak = ({ onNavigate }) => {
   const navigate = useNavigate();

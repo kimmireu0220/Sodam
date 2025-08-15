@@ -97,20 +97,11 @@ const About = ({ onNavigate }) => {
                 fontSize: 'var(--font-size-2xl)',
                 fontWeight: '700',
                 color: 'var(--primary)',
-                margin: '0 0 var(--spacing-xs) 0'
+                margin: 0
               }}
             >
               소담
             </h2>
-            <p
-              style={{
-                fontSize: 'var(--font-size-base)',
-                color: 'var(--text-secondary)',
-                margin: 0
-              }}
-            >
-              손으로 전하는 소중한 이야기
-            </p>
           </div>
         </div>
         
@@ -156,7 +147,7 @@ const About = ({ onNavigate }) => {
             }}
           >
             <span style={{ color: 'var(--text-secondary)' }}>업데이트</span>
-            <span style={{ fontWeight: '500' }}>2024년 1월</span>
+            <span style={{ fontWeight: '500' }}>2025년 8월</span>
           </div>
         </div>
       </div>
