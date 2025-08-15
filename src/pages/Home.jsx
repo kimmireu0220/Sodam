@@ -21,6 +21,7 @@ import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 import bear from '../assets/bear-new.png';
 import signLanguageIcon from '../assets/sign-language-icon.png';
+import profileIcon from '../assets/profile-icon.png';
 
 const Home = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -59,7 +60,8 @@ const Home = ({ onNavigate }) => {
       title: '마이 페이지',
       subtitle: '준비중',
       description: '개인 설정 및 사용 기록을 확인합니다',
-      icon: '👤',
+      icon: 'image',
+      imageSrc: profileIcon,
       path: '/mypage',
       color: 'var(--text-secondary)'
     }

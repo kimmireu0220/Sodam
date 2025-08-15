@@ -17,8 +17,11 @@
  */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import BottomNav from '../components/BottomNav';
 import QuickPhrases from '../components/QuickPhrases';
 import BigTextCard from '../components/BigTextCard';
+import bear from '../assets/bear-new.png';
 
 const Speak = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -42,6 +45,10 @@ const Speak = ({ onNavigate }) => {
     }
   };
 
+  const handleMenuClick = () => {
+    navigate('/about');
+  };
+
   return (
     <div
       style={{
@@ -51,56 +58,7 @@ const Speak = ({ onNavigate }) => {
       }}
     >
       {/* 헤더 */}
-      <div
-        style={{
-          backgroundColor: 'var(--white)',
-          padding: 'var(--spacing-md)',
-          boxShadow: 'var(--shadow)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 100
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'var(--spacing-md)'
-          }}
-        >
-          <button
-            onClick={() => navigate('/home')}
-            className="btn"
-            style={{
-              background: 'none',
-              border: 'none',
-              borderRadius: '50%',
-              width: '44px',
-              height: '44px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease'
-            }}
-
-            aria-label="뒤로 가기"
-          >
-            ←
-          </button>
-          
-          <h1
-            style={{
-              fontSize: 'var(--font-size-xl)',
-              fontWeight: '600',
-              color: 'var(--text-primary)',
-              margin: 0
-            }}
-          >
-            텍스트로 말하기
-          </h1>
-        </div>
-      </div>
+      <Header onMenuClick={handleMenuClick} />
 
       {/* 메인 콘텐츠 */}
       <div
@@ -108,9 +66,57 @@ const Speak = ({ onNavigate }) => {
           padding: 'var(--spacing-lg)',
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--spacing-xl)'
+          gap: 'var(--spacing-lg)'
         }}
       >
+        {/* 환영 메시지 */}
+        <div
+          style={{
+            textAlign: 'center',
+            marginBottom: 'var(--spacing-md)'
+          }}
+        >
+          <h1
+            style={{
+              fontSize: 'var(--font-size-2xl)',
+              fontWeight: '700',
+              color: 'var(--primary)',
+              margin: '0 0 var(--spacing-sm) 0'
+            }}
+          >
+            텍스트로 말하기
+          </h1>
+          <p
+            style={{
+              fontSize: 'var(--font-size-base)',
+              color: 'var(--text-secondary)',
+              margin: 0,
+              lineHeight: '1.6'
+            }}
+          >
+            텍스트를 입력하여 음성으로 전달합니다
+          </p>
+        </div>
+
+        {/* 곰 캐릭터 */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: 'var(--spacing-lg)'
+          }}
+        >
+          <img
+            src={bear}
+            alt="소담 곰 캐릭터"
+            style={{
+              width: '200px',
+              height: 'auto',
+              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))'
+            }}
+          />
+        </div>
+
         {/* 텍스트 입력 카드 */}
         <div className="card">
           <h3
@@ -197,6 +203,9 @@ const Speak = ({ onNavigate }) => {
         {/* 빠른 응답 */}
         <QuickPhrases onPhraseClick={handlePhraseClick} />
       </div>
+
+      {/* 하단 네비게이션 */}
+      <BottomNav currentPage="speak" onNavigate={onNavigate} />
 
       {/* BigTextCard 모달 */}
       <BigTextCard
