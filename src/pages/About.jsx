@@ -91,18 +91,7 @@ const About = ({ onNavigate }) => {
             }}
           />
           
-          <div>
-            <h2
-              style={{
-                fontSize: 'var(--font-size-2xl)',
-                fontWeight: '700',
-                color: 'var(--primary)',
-                margin: 0
-              }}
-            >
-              소담
-            </h2>
-          </div>
+
         </div>
         
         <div
