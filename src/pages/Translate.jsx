@@ -7,9 +7,8 @@
  * - onNavigate: 네비게이션 클릭 시 호출되는 콜백 함수
  * 
  * 출력:
- * - TurnLight 상태 표시
- * - AvatarCard 곰 캐릭터
- * - MicButton 마이크 제어
+ * - 곰 캐릭터
+ * - 마이크 제어
  * - 수화 변환 버튼
  * 
  * 기능:
@@ -22,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
-import TurnLight from '../components/TurnLight';
+
 import SpeechBubble from '../components/SpeechBubble';
 import bearPointing from '../assets/bear-pointing.png';
 import bearThinking from '../assets/bear-thinking.png';
@@ -157,6 +156,7 @@ const Translate = ({ onNavigate }) => {
       <div
         style={{
           padding: 'var(--spacing-lg)',
+          paddingTop: 'calc(var(--spacing-lg) + 60px)', // 헤더 높이만큼 추가 여백
           display: 'flex',
           flexDirection: 'column',
           gap: 'var(--spacing-lg)'
@@ -353,41 +353,6 @@ const Translate = ({ onNavigate }) => {
 
       {/* 하단 네비게이션 */}
       <BottomNav currentPage="translate" onNavigate={onNavigate} />
-
-      {/* 상태 표시 및 언어 설정 */}
-      <div style={{ position: 'absolute', top: '120px', right: '20px', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 50 }}>
-        <div style={{ margin: 0 }}>
-          <TurnLight status={status} />
-        </div>
-        <button
-          onClick={toggleLanguageGuide}
-          style={{
-            background: 'none',
-            border: 'none',
-            fontSize: '24px',
-            cursor: 'pointer',
-            padding: '8px',
-            borderRadius: '50%',
-            transition: 'all 0.3s ease',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = 'rgba(255, 255, 255, 1)';
-            e.target.style.transform = 'scale(1.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-            e.target.style.transform = 'scale(1)';
-          }}
-          title="한국어 인식 설정 도움말"
-        >
-          🌐
-        </button>
-      </div>
 
       {/* 언어 설정 안내 팝업 */}
       {showLanguageGuide && (

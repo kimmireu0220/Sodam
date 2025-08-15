@@ -363,6 +363,11 @@ body {
   .usage-count {
     font-size: var(--font-mobile-sm);
   }
+  
+  /* Header spacing for mobile */
+  .translate-content {
+    padding-top: calc(var(--spacing-lg) + 80px) !important;
+  }
 }
 
 /* Tablet optimizations */
