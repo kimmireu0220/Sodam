@@ -111,7 +111,7 @@ const Translate = ({ onNavigate }) => {
       // 음성 인식 시작 (한국어, 연속 인식 비활성화)
       await SpeechRecognition.startListening({
         continuous: false, // 한 번에 하나의 발화만 인식
-        language: 'ko'     // 한국어 설정
+        language: 'ko-KR'  // 한국어 설정 (더 정확한 한국어 인식)
       });
     } catch (error) {
       console.error('음성 인식 시작 실패:', error);
