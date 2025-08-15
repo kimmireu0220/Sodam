@@ -19,8 +19,10 @@
  */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import BottomNav from '../components/BottomNav';
 import TurnLight from '../components/TurnLight';
-import bearSuggest from '../assets/bear-suggest.png';
+import bear from '../assets/bear-new.png';
 
 const Translate = ({ onNavigate }) => {
   const navigate = useNavigate();
@@ -56,170 +58,151 @@ const Translate = ({ onNavigate }) => {
     }
   };
 
+  const handleMenuClick = () => {
+    navigate('/about');
+  };
+
   return (
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: '#F5F5DC', // 베이지 배경색
-        display: 'flex',
-        flexDirection: 'column'
+        backgroundColor: 'var(--background)',
+        paddingBottom: '80px' // 하단 네비게이션 공간
       }}
     >
-      {/* 상단 헤더 */}
-      <div
-        style={{
-          background: 'var(--white)',
-          borderRadius: '0 0 20px 20px',
-          padding: 'var(--spacing-md) var(--spacing-lg)',
-          margin: '0 var(--spacing-md)',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--spacing-sm)'
-        }}
-      >
-        <button
-          onClick={() => navigate('/home')}
-          style={{
-            background: 'none',
-            border: 'none',
-            fontSize: '20px',
-            cursor: 'pointer',
-            padding: '4px'
-          }}
-          aria-label="뒤로 가기"
-        >
-          ←
-        </button>
-        <span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>
-          대기 중
-        </span>
-      </div>
+      {/* 헤더 */}
+      <Header onMenuClick={handleMenuClick} />
 
       {/* 메인 콘텐츠 */}
       <div
         style={{
-          flex: 1,
+          padding: 'var(--spacing-lg)',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 'var(--spacing-lg)',
-          gap: 'var(--spacing-xl)'
+          gap: 'var(--spacing-lg)'
         }}
       >
-                 {/* 곰 캐릭터 카드 */}
-         <div
-           style={{
-             background: 'var(--white)',
-             borderRadius: '20px',
-             padding: 'var(--spacing-xl)',
-             boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
-             textAlign: 'center',
-             maxWidth: '90%',
-             width: '100%',
-             minHeight: '300px',
-             display: 'flex',
-             flexDirection: 'column',
-             justifyContent: 'center'
-           }}
-         >
-                     {/* 곰 캐릭터 이미지 */}
-           <div style={{ marginBottom: 'var(--spacing-xl)' }}>
-             <img
-               src={bearSuggest}
-               alt="곰 캐릭터"
-               style={{
-                 width: '180px',
-                 height: 'auto',
-                 borderRadius: '10px'
-               }}
-             />
-           </div>
-          
-                     {/* 메시지 텍스트 */}
-           <p
-             style={{
-               fontSize: 'var(--font-size-xl)',
-               fontWeight: '600',
-               color: 'var(--text-primary)',
-               margin: 0,
-               lineHeight: '1.5',
-               padding: '0 var(--spacing-md)'
-             }}
-           >
-             대화 듣기를 통해 실시간 수화 통역을 시작하세요!
-           </p>
+        {/* 환영 메시지 */}
+        <div
+          style={{
+            textAlign: 'center',
+            marginBottom: 'var(--spacing-md)'
+          }}
+        >
+          <h1
+            style={{
+              fontSize: 'var(--font-size-2xl)',
+              fontWeight: '700',
+              color: 'var(--primary)',
+              margin: '0 0 var(--spacing-sm) 0'
+            }}
+          >
+            수화 변환
+          </h1>
+          <p
+            style={{
+              fontSize: 'var(--font-size-base)',
+              color: 'var(--text-secondary)',
+              margin: 0,
+              lineHeight: '1.6'
+            }}
+          >
+            음성을 실시간으로 수화로 변환합니다
+          </p>
         </div>
 
-                 {/* 하단 버튼들 */}
-         <div
-           style={{
-             display: 'flex',
-             flexDirection: 'row',
-             gap: 'var(--spacing-md)',
-             width: '100%',
-             maxWidth: '90%',
-             justifyContent: 'center'
-           }}
-         >
-                     {/* 대화 듣기 버튼 */}
-           <button
-             onClick={handleMicClick}
-             className="btn btn-primary"
-             style={{
-               background: '#FF6B35', // 오렌지 색상
-               fontSize: 'var(--font-size-lg)',
-               fontWeight: '600',
-               padding: 'var(--spacing-md) var(--spacing-lg)',
-               borderRadius: 'var(--radius)',
-               border: 'none',
-               cursor: 'pointer',
-               transition: 'all 0.2s ease',
-               display: 'flex',
-               alignItems: 'center',
-               gap: 'var(--spacing-sm)',
-               justifyContent: 'center',
-               color: 'var(--white)',
-               flex: 1,
-               maxWidth: '200px'
-             }}
-             aria-label="대화 듣기"
-           >
-             <span style={{ fontSize: '20px' }}>🎤</span>
-             <span>대화 듣기</span>
-           </button>
+        {/* 곰 캐릭터 */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: 'var(--spacing-lg)'
+          }}
+        >
+          <img
+            src={bear}
+            alt="소담 곰 캐릭터"
+            style={{
+              width: '200px',
+              height: 'auto',
+              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))'
+            }}
+          />
+        </div>
 
-                     {/* 수화로 변환 버튼 */}
-           <button
-             onClick={handleTranslateClick}
-             disabled={status !== 'ready'}
-             className="btn btn-secondary"
-             style={{
-               background: '#F0F0F0', // 연한 베이지 색상
-               fontSize: 'var(--font-size-lg)',
-               fontWeight: '600',
-               padding: 'var(--spacing-md) var(--spacing-lg)',
-               borderRadius: 'var(--radius)',
-               border: 'none',
-               cursor: status === 'ready' ? 'pointer' : 'not-allowed',
-               transition: 'all 0.2s ease',
-               display: 'flex',
-               alignItems: 'center',
-               gap: 'var(--spacing-sm)',
-               justifyContent: 'center',
-               flex: 1,
-               maxWidth: '200px',
-               opacity: status === 'ready' ? 1 : 0.5,
-               color: 'var(--text-primary)'
-             }}
-             aria-label="수화로 변환"
-           >
-             <span style={{ fontSize: '20px' }}>🤟</span>
-             <span>수화로 변환</span>
-           </button>
+        {/* 메인 기능 카드 */}
+        <div className="card">
+          <div
+            style={{
+              textAlign: 'center',
+              padding: 'var(--spacing-xl)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--spacing-lg)'
+            }}
+          >
+            {/* 안내 메시지 */}
+            <p
+              style={{
+                fontSize: 'var(--font-size-xl)',
+                fontWeight: '600',
+                color: 'var(--text-primary)',
+                margin: 0,
+                lineHeight: '1.5'
+              }}
+            >
+              대화 듣기를 통해 실시간 수화 통역을 시작하세요!
+            </p>
+
+            {/* 버튼들 */}
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 'var(--spacing-md)',
+                justifyContent: 'center',
+                flexWrap: 'wrap'
+              }}
+            >
+              {/* 대화 듣기 버튼 */}
+              <button
+                onClick={handleMicClick}
+                className="btn btn-primary"
+                style={{
+                  flex: 1,
+                  maxWidth: '200px',
+                  minWidth: '160px'
+                }}
+                aria-label="대화 듣기"
+              >
+                <span style={{ fontSize: '20px' }}>🎤</span>
+                <span>대화 듣기</span>
+              </button>
+
+              {/* 수화로 변환 버튼 */}
+              <button
+                onClick={handleTranslateClick}
+                disabled={status !== 'ready'}
+                className="btn btn-secondary"
+                style={{
+                  flex: 1,
+                  maxWidth: '200px',
+                  minWidth: '160px',
+                  opacity: status === 'ready' ? 1 : 0.5,
+                  cursor: status === 'ready' ? 'pointer' : 'not-allowed'
+                }}
+                aria-label="수화로 변환"
+              >
+                <span style={{ fontSize: '20px' }}>🤟</span>
+                <span>수화로 변환</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* 하단 네비게이션 */}
+      <BottomNav currentPage="translate" onNavigate={onNavigate} />
 
       {/* 상태 표시 (필요시) */}
       {status !== 'idle' && (
