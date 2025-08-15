@@ -366,8 +366,10 @@ const Translate = ({ onNavigate }) => {
       <BottomNav currentPage="translate" onNavigate={onNavigate} />
 
       {/* 상태 표시 및 언어 설정 */}
-      <div style={{ position: 'absolute', top: '20px', right: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <TurnLight status={status} />
+      <div style={{ position: 'absolute', top: '120px', right: '20px', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 50 }}>
+        <div style={{ margin: 0 }}>
+          <TurnLight status={status} />
+        </div>
         <button
           onClick={toggleLanguageGuide}
           style={{
@@ -380,14 +382,16 @@ const Translate = ({ onNavigate }) => {
             transition: 'all 0.3s ease',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
           }}
           onMouseEnter={(e) => {
-            e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 1)';
             e.target.style.transform = 'scale(1.1)';
           }}
           onMouseLeave={(e) => {
-            e.target.style.backgroundColor = 'transparent';
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
             e.target.style.transform = 'scale(1)';
           }}
           title="한국어 인식 설정 도움말"
