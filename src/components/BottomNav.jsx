@@ -18,6 +18,7 @@
 import { useNavigate } from 'react-router-dom';
 import signLanguageIcon from '../assets/sign-language-icon.png';
 import homeIcon from '../assets/home-icon.png';
+import profileIcon from '../assets/profile-icon.png';
 
 const BottomNav = ({ currentPath, onNavigate }) => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const BottomNav = ({ currentPath, onNavigate }) => {
   const navItems = [
     { path: '/home', label: '홈', icon: 'image', imageSrc: homeIcon },
     { path: '/translate', label: '수화 변환', icon: 'image', imageSrc: signLanguageIcon },
-    { path: '/mypage', label: '마이 페이지', icon: '👤' }
+    { path: '/mypage', label: '마이 페이지', icon: 'image', imageSrc: profileIcon }
   ];
 
   const handleNavClick = (path) => {
