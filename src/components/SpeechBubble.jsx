@@ -21,7 +21,7 @@ const SpeechBubble = ({ message }) => {
     <div
       style={{
         position: 'relative',
-        marginBottom: 'var(--spacing-md)',
+        marginBottom: '0px',
         animation: 'speechBubbleFadeIn 0.3s ease-in-out'
       }}
       aria-live="polite"

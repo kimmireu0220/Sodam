@@ -140,6 +140,14 @@ const Translate = ({ onNavigate }) => {
       // KSL 변환 실행
       const kslResult = kslConverter.convert(transcript);
       
+      // 태그 정보를 콘솔에 출력
+      console.log('KSL 변환 결과:', {
+        original: kslResult.original,
+        gloss: kslResult.gloss,
+        tags: kslResult.tags,
+        confidence: kslResult.confidence
+      });
+      
       // 2초 후 완료 상태로 변경
       setTimeout(() => {
         setStatus('signing');
@@ -205,9 +213,7 @@ const Translate = ({ onNavigate }) => {
         {/* 곰 캐릭터와 말풍선 */}
         {/* 말풍선 - ready 상태일 때만 표시 */}
         {(status === 'ready') && transcript && (
-          <div style={{ marginBottom: 'var(--spacing-md)' }}>
-            <SpeechBubble message={transcript} />
-          </div>
+          <SpeechBubble message={transcript} />
         )}
 
         {/* 곰돌이와 KSL 결과 - 가로 배치 */}

@@ -38,7 +38,8 @@ const KSLResultCard = ({ original, kslResult }) => {
           display: 'flex',
           flexDirection: 'row',
           gap: 'var(--spacing-md)',
-          alignItems: 'flex-start'
+          alignItems: 'stretch',
+          minHeight: '80px'
         }}
       >
         {/* 한국어 원본 - 왼쪽 */}
@@ -48,7 +49,10 @@ const KSLResultCard = ({ original, kslResult }) => {
             padding: 'var(--spacing-md)',
             backgroundColor: '#f8f9fa',
             borderRadius: 'var(--radius)',
-            border: '1px solid #e9ecef'
+            border: '1px solid #e9ecef',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
           }}
         >
           <h4
@@ -59,7 +63,8 @@ const KSLResultCard = ({ original, kslResult }) => {
               margin: '0 0 var(--spacing-sm) 0',
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--spacing-xs)'
+              gap: 'var(--spacing-xs)',
+              whiteSpace: 'nowrap'
             }}
           >
             🇰🇷 한국어
@@ -69,7 +74,9 @@ const KSLResultCard = ({ original, kslResult }) => {
               fontSize: 'var(--font-size-base)',
               color: 'var(--text-primary)',
               margin: 0,
-              lineHeight: '1.5'
+              lineHeight: '1.4',
+              wordBreak: 'keep-all',
+              overflowWrap: 'break-word'
             }}
           >
             "{original}"
@@ -83,7 +90,10 @@ const KSLResultCard = ({ original, kslResult }) => {
             padding: 'var(--spacing-md)',
             backgroundColor: '#e8f5e8',
             borderRadius: 'var(--radius)',
-            border: '1px solid #4caf50'
+            border: '1px solid #4caf50',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
           }}
         >
           <h4
@@ -94,7 +104,8 @@ const KSLResultCard = ({ original, kslResult }) => {
               margin: '0 0 var(--spacing-sm) 0',
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--spacing-xs)'
+              gap: 'var(--spacing-xs)',
+              whiteSpace: 'nowrap'
             }}
           >
             🤟 KSL 글로스
@@ -105,7 +116,9 @@ const KSLResultCard = ({ original, kslResult }) => {
               fontWeight: '600',
               color: 'var(--success)',
               margin: 0,
-              lineHeight: '1.5'
+              lineHeight: '1.4',
+              wordBreak: 'keep-all',
+              overflowWrap: 'break-word'
             }}
           >
             "{kslResult.gloss}"
@@ -113,53 +126,24 @@ const KSLResultCard = ({ original, kslResult }) => {
         </div>
       </div>
 
-      {/* 태그와 신뢰도 - 하단 */}
-      <div
-        style={{
-          marginTop: 'var(--spacing-md)',
-          display: 'flex',
-          flexDirection: 'row',
-          gap: 'var(--spacing-md)',
-          alignItems: 'center'
-        }}
-      >
-        {/* 태그 */}
-        {kslResult.tags && (
+      {/* 신뢰도 - 하단 */}
+      {kslResult.confidence !== undefined && (
+        <div
+          style={{
+            marginTop: 'var(--spacing-md)',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
           <div
             style={{
-              flex: 1,
-              padding: 'var(--spacing-sm) var(--spacing-md)',
-              backgroundColor: '#fff3e0',
-              borderRadius: 'var(--radius)',
-              border: '1px solid #ffb74d'
-            }}
-          >
-            <p
-              style={{
-                fontSize: 'var(--font-size-sm)',
-                color: '#e65100',
-                margin: 0,
-                fontWeight: '500',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--spacing-xs)'
-              }}
-            >
-              🏷️ 태그: {kslResult.tags}
-            </p>
-          </div>
-        )}
-
-        {/* 신뢰도 */}
-        {kslResult.confidence !== undefined && (
-          <div
-            style={{
-              flex: 1,
-              textAlign: 'center',
               padding: 'var(--spacing-sm) var(--spacing-md)',
               backgroundColor: '#f0f8ff',
               borderRadius: 'var(--radius)',
-              border: '1px solid #87ceeb'
+              border: '1px solid #87ceeb',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}
           >
             <p
@@ -167,14 +151,15 @@ const KSLResultCard = ({ original, kslResult }) => {
                 fontSize: 'var(--font-size-sm)',
                 color: '#0066cc',
                 margin: 0,
-                fontWeight: '500'
+                fontWeight: '500',
+                whiteSpace: 'nowrap'
               }}
             >
               변환 신뢰도: {Math.round(kslResult.confidence * 100)}%
             </p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
