@@ -64,26 +64,18 @@ export class KSLConverter {
 
   mapToGloss(words) {
     return words.map(word => {
-      console.log(`매핑 시도: "${word}"`);
-      
-      // 정확한 매칭 시도
+      // 1. 정확한 매칭 시도
       if (this.dictionary[word]) {
-        console.log(`✅ 정확 매칭: "${word}" → "${this.dictionary[word]}"`);
         return this.dictionary[word];
       }
       
-      // 조사 제거 후 매칭 시도
-      const cleanWord = word.replace(/[은는이가을를에의로]|입니다|니다|요/g, '');
-      console.log(`조사 제거: "${word}" → "${cleanWord}"`);
-      console.log(`사전에 "${cleanWord}" 존재 여부:`, !!this.dictionary[cleanWord]);
-      
-      if (this.dictionary[cleanWord]) {
-        console.log(`✅ 조사 제거 후 매칭: "${word}" → "${cleanWord}" → "${this.dictionary[cleanWord]}"`);
-        return this.dictionary[cleanWord];
+      // 2. 형태소 분석 시도
+      const morphemeResult = this.analyzeMorpheme(word);
+      if (morphemeResult.stem && this.dictionary[morphemeResult.stem]) {
+        return this.dictionary[morphemeResult.stem];
       }
       
-      console.log(`❌ 매칭 실패: "${word}"`);
-      // 매칭 실패 시 원본 반환
+      // 3. 매칭 실패 시 원본 반환
       return word;
     });
   }
@@ -91,16 +83,14 @@ export class KSLConverter {
   applyRules(words, originalText) {
     let processedWords = [...words];
     
-    // 시간/장소 전면화
+    // 1. 시간/장소 전면화
     processedWords = this.rules.moveTimePlace(processedWords);
     
-    // 조사 제거
-    processedWords = processedWords.map(word => 
-      this.rules.removeParticles(word)
-    );
-    
-    // 방향동사 태그 추가
+    // 2. 방향동사 태그 추가
     processedWords = this.rules.addDirectionalTags(processedWords);
+    
+    // 3. 믘어진 단어 처리 (ex: "가다 {dir:1→3}" → 단일 항목으로 유지)
+    // (KSL 귀칙에 따라 단어와 태그를 하나의 단위로 처리)
     
     return processedWords;
   }
@@ -110,64 +100,82 @@ export class KSLConverter {
   }
 
   generateTags(originalText, words) {
-    const tags = [];
+    // 기존 로직을 규칙 엔진으로 대체
+    const sentenceType = this.rules.getSentenceType(originalText);
+    return this.rules.getSignLanguageTags(sentenceType, originalText, words);
+  }
+
+  analyzeMorpheme(word) {
+    // 동사 어미 패턴
+    const verbEndings = [
+      { pattern: /([가-힣]+)(습니다|ㅂ니다)$/, type: 'formal' },
+      { pattern: /([가-힣]+)(어요|아요|여요)$/, type: 'polite' },
+      { pattern: /([가-힣]+)(어|아|여)$/, type: 'casual' },
+      { pattern: /([가-힣]+)(세요|으세요)$/, type: 'honorific' },
+      { pattern: /([가-힣]+)(었습니다|았습니다|였습니다)$/, type: 'past_formal' },
+      { pattern: /([가-힣]+)(었어요|았어요|였어요)$/, type: 'past_polite' },
+      { pattern: /([가-힣]+)(을게요|ㄹ게요)$/, type: 'will' },
+      { pattern: /([가-힣]+)(요)$/, type: 'polite_ending' }
+    ];
     
-    // 의문문 태그
-    if (originalText.includes('?') || originalText.includes('까')) {
-      tags.push('{NMM:WH?}');
-    } else {
-      tags.push('{NMM:neutral}');
+    // 조사 패턴
+    const particlePattern = /([가-힣]+)([은는이가을를에의로와과부터까지도만]|에서|으로|로서|와서|해서|라서)$/;
+    
+    // 동사 어미 매칭
+    for (const ending of verbEndings) {
+      const match = word.match(ending.pattern);
+      if (match && match[1]) {
+        return {
+          stem: match[1] + '다', // 기본형으로 변환
+          suffix: match[2],
+          type: ending.type,
+          original: word
+        };
+      }
     }
     
-    // 부정문 태그 - 단어 경계를 고려하여 수정
-    const negativeWords = ['안', '못', '없'];
-    const hasNegative = negativeWords.some(word => {
-      // 단어 경계를 확인 (공백, 문장 시작/끝)
-      const regex = new RegExp(`\\b${word}\\b`, 'g');
-      return regex.test(originalText);
-    });
-    
-    if (hasNegative) {
-      tags.push('{NMM:neg}');
+    // 조사 매칭
+    const particleMatch = word.match(particlePattern);
+    if (particleMatch && particleMatch[1]) {
+      return {
+        stem: particleMatch[1],
+        suffix: particleMatch[2],
+        type: 'particle',
+        original: word
+      };
     }
     
-    // 방향 태그 (기본값)
-    if (words.some(word => word.includes('{dir:'))) {
-      // 이미 방향 태그가 있으면 그대로 유지
-    } else if (words.includes('가다') || words.includes('오다')) {
-      tags.push('{dir:1→3}');
+    // 기타 어미 제거 (기존 방식)
+    const cleanWord = word.replace(/입니다|니다$/g, '');
+    if (cleanWord !== word && cleanWord.length > 0) {
+      return {
+        stem: cleanWord,
+        suffix: word.replace(cleanWord, ''),
+        type: 'simple',
+        original: word
+      };
     }
     
-    return tags.join(' ');
+    return { stem: word, suffix: '', type: 'none', original: word };
   }
 
   calculateConfidence(words, glossWords) {
-    console.log('신뢰도 계산 디버깅:', {
-      originalWords: words,
-      glossWords: glossWords
-    });
-    
     const mappedCount = words.filter(word => {
       // 정확한 매칭 확인
       if (this.dictionary[word]) {
-        console.log(`✅ 매칭됨: "${word}"`);
         return true;
       }
       
-      // 조사 제거 후 매칭 확인
-      const cleanWord = word.replace(/[은는이가을를에의로]|입니다|니다|요/g, '');
-      if (this.dictionary[cleanWord]) {
-        console.log(`✅ 조사 제거 후 매칭: "${word}" → "${cleanWord}"`);
+      // 형태소 분석 후 매칭 확인
+      const morphemeResult = this.analyzeMorpheme(word);
+      if (morphemeResult.stem && this.dictionary[morphemeResult.stem]) {
         return true;
       }
       
-      console.log(`❌ 매칭 실패: "${word}"`);
       return false;
     }).length;
     
     const confidence = Math.min(1.0, mappedCount / words.length);
-    console.log(`신뢰도: ${mappedCount}/${words.length} = ${confidence * 100}%`);
-    
     return confidence;
   }
 }
