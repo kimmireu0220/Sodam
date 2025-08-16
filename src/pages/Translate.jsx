@@ -140,13 +140,7 @@ const Translate = ({ onNavigate }) => {
       // KSL 변환 실행
       const kslResult = kslConverter.convert(transcript);
       
-      // 태그 정보를 콘솔에 출력
-      console.log('KSL 변환 결과:', {
-        original: kslResult.original,
-        gloss: kslResult.gloss,
-        tags: kslResult.tags,
-        confidence: kslResult.confidence
-      });
+      // KSL 변환 결과 처리
       
       // 2초 후 완료 상태로 변경
       setTimeout(() => {

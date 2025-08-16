@@ -80,7 +80,7 @@ export class KSLConverter {
     });
   }
 
-  applyRules(words, originalText) {
+  applyRules(words) {
     let processedWords = [...words];
     
     // 1. 시간/장소 전면화
@@ -159,7 +159,7 @@ export class KSLConverter {
     return { stem: word, suffix: '', type: 'none', original: word };
   }
 
-  calculateConfidence(words, glossWords) {
+  calculateConfidence(words) {
     const mappedCount = words.filter(word => {
       // 정확한 매칭 확인
       if (this.dictionary[word]) {

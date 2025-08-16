@@ -442,7 +442,7 @@ const CustomPhrasesSection = () => {
             )}
           </div>
         ) : (
-          filteredAndSortedPhrases.map((phrase, index) => (
+          filteredAndSortedPhrases.map((phrase) => (
             <div
               key={phrase.id}
               className="card"
