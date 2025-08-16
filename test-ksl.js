@@ -1,14 +1,87 @@
 /**
- * KSL 변환기 메인 클래스
- * 한국어 텍스트를 KSL 글로스로 변환
+ * KSL 변환기 테스트 스크립트
  */
-import { KSL_DICTIONARY } from './dictionary.js';
-import { KSL_RULES } from './rules.js';
 
-export class KSLConverter {
+// Node.js 환경에서 테스트하기 위한 모의 사전과 규칙
+const KSL_DICTIONARY = {
+  // 인사/기본 표현
+  "안녕하세요": "안녕",
+  "안녕": "안녕",
+  "감사합니다": "감사",
+  "감사": "감사",
+  "죄송합니다": "죄송",
+  "죄송": "죄송",
+  "네": "네",
+  "아니요": "아니요",
+  "안녕히": "안녕히",
+  
+  // 장소
+  "학교": "학교",
+  "집": "집",
+  "병원": "병원",
+  "식당": "식당",
+  "회사": "회사",
+  "가게": "가게",
+  "은행": "은행",
+  "역": "역",
+  "공원": "공원",
+  
+  // 시간
+  "오늘": "오늘",
+  "내일": "내일",
+  "어제": "어제",
+  "지금": "지금",
+  "나중에": "나중에",
+  "아침": "아침",
+  "점심": "점심",
+  "저녁": "저녁",
+  
+  // 동작
+  "가다": "가다",
+  "오다": "오다",
+  "먹다": "먹다",
+  "마시다": "마시다",
+  "자다": "자다",
+  "일하다": "일하다",
+  "공부하다": "공부하다",
+  "만나다": "만나다",
+  "주다": "주다",
+  "받다": "받다",
+  "사다": "사다",
+  "보다": "보다",
+  "듣다": "듣다",
+  "말하다": "말하다",
+  
+  // 의문사
+  "어디": "어디",
+  "언제": "언제",
+  "무엇": "무엇",
+  "뭐": "무엇",
+  "누구": "누구",
+  "왜": "왜",
+  "어떻게": "어떻게",
+  
+  // 기타
+  "좋다": "좋다",
+  "나쁘다": "나쁘다",
+  "크다": "크다",
+  "작다": "작다",
+  "많다": "많다",
+  "적다": "적다",
+  "빠르다": "빠르다",
+  "느리다": "느리다",
+  
+  // 사람/대명사
+  "사람": "사람",
+  "저": "저",
+  "나": "나",
+  "저는": "저",
+  "나는": "나"
+};
+
+class KSLConverter {
   constructor() {
     this.dictionary = KSL_DICTIONARY;
-    this.rules = KSL_RULES;
   }
 
   convert(text) {
@@ -26,14 +99,11 @@ export class KSLConverter {
       // 3. 사전 매핑
       const glossWords = this.mapToGloss(words);
       
-      // 4. 규칙 적용
-      const processedWords = this.applyRules(glossWords, text);
+      // 4. 글로스 생성
+      const gloss = this.generateGloss(glossWords);
       
-      // 5. 글로스 생성
-      const gloss = this.generateGloss(processedWords);
-      
-      // 6. 태그 생성
-      const tags = this.generateTags(text, processedWords);
+      // 5. 태그 생성
+      const tags = this.generateTags(text, glossWords);
       
       return {
         original: text,
@@ -45,7 +115,7 @@ export class KSLConverter {
       console.error('KSL 변환 오류:', error);
       return {
         original: text,
-        gloss: text, // 변환 실패 시 원본 반환
+        gloss: text,
         tags: '{NMM:neutral}',
         confidence: 0
       };
@@ -54,7 +124,7 @@ export class KSLConverter {
 
   normalizeText(text) {
     return text
-      .replace(/[.!?]/g, '') // 문장부호 제거
+      .replace(/[.!?]/g, '')
       .trim();
   }
 
@@ -83,26 +153,8 @@ export class KSLConverter {
       }
       
       console.log(`❌ 매칭 실패: "${word}"`);
-      // 매칭 실패 시 원본 반환
       return word;
     });
-  }
-
-  applyRules(words, originalText) {
-    let processedWords = [...words];
-    
-    // 시간/장소 전면화
-    processedWords = this.rules.moveTimePlace(processedWords);
-    
-    // 조사 제거
-    processedWords = processedWords.map(word => 
-      this.rules.removeParticles(word)
-    );
-    
-    // 방향동사 태그 추가
-    processedWords = this.rules.addDirectionalTags(processedWords);
-    
-    return processedWords;
   }
 
   generateGloss(words) {
@@ -122,20 +174,12 @@ export class KSLConverter {
     // 부정문 태그 - 단어 경계를 고려하여 수정
     const negativeWords = ['안', '못', '없'];
     const hasNegative = negativeWords.some(word => {
-      // 단어 경계를 확인 (공백, 문장 시작/끝)
       const regex = new RegExp(`\\b${word}\\b`, 'g');
       return regex.test(originalText);
     });
     
     if (hasNegative) {
       tags.push('{NMM:neg}');
-    }
-    
-    // 방향 태그 (기본값)
-    if (words.some(word => word.includes('{dir:'))) {
-      // 이미 방향 태그가 있으면 그대로 유지
-    } else if (words.includes('가다') || words.includes('오다')) {
-      tags.push('{dir:1→3}');
     }
     
     return tags.join(' ');
@@ -171,3 +215,24 @@ export class KSLConverter {
     return confidence;
   }
 }
+
+// 테스트 실행
+console.log('=== KSL 변환기 테스트 ===\n');
+
+const converter = new KSLConverter();
+
+// 테스트 케이스들
+const testCases = [
+  "안녕하세요",
+  "안녕하세요 저는 사람입니다",
+  "저는 내일 학교에 가요",
+  "어디 가세요?",
+  "감사합니다"
+];
+
+testCases.forEach((testCase, index) => {
+  console.log(`\n--- 테스트 ${index + 1}: "${testCase}" ---`);
+  const result = converter.convert(testCase);
+  console.log('\n최종 결과:', result);
+  console.log('='.repeat(50));
+});
