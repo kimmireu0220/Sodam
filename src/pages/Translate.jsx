@@ -23,6 +23,8 @@ import Header from '../components/Header';
 import BottomNav from '../components/BottomNav';
 
 import SpeechBubble from '../components/SpeechBubble';
+import KSLResultCard from '../components/KSLResultCard';
+import { KSLConverter } from '../utils/ksl/converter';
 import bearPointing from '../assets/bear-pointing.png';
 import bearThinking from '../assets/bear-thinking.png';
 import bearSuggest from '../assets/bear-suggest.png';
@@ -33,6 +35,10 @@ const Translate = ({ onNavigate }) => {
   const [status, setStatus] = useState('idle');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showLanguageGuide, setShowLanguageGuide] = useState(false);
+  const [kslGloss, setKslGloss] = useState(null);
+
+  // KSL 변환기 인스턴스 생성
+  const kslConverter = new KSLConverter();
 
   // Speech Recognition Hook
   const {
@@ -82,6 +88,7 @@ const Translate = ({ onNavigate }) => {
       // ready 상태에서 다시 클릭하면 idle로 복귀
       setStatus('idle');
       resetTranscript();
+      setKslGloss(null); // KSL 결과도 초기화
       return;
     }
 
@@ -126,13 +133,17 @@ const Translate = ({ onNavigate }) => {
   };
 
   const handleTranslateClick = () => {
-    if (status === 'ready') {
-      // 변환 중 상태로 변경 (캐릭터 이미지는 그대로 유지)
+    if (status === 'ready' && transcript) {
+      // 변환 중 상태로 변경
       setStatus('converting');
       
-      // 2초 후 완료 상태로 변경 (캐릭터 이미지 변경)
+      // KSL 변환 실행
+      const kslResult = kslConverter.convert(transcript);
+      
+      // 2초 후 완료 상태로 변경
       setTimeout(() => {
         setStatus('signing');
+        setKslGloss(kslResult);
       }, 2000);
     }
   };
@@ -192,29 +203,37 @@ const Translate = ({ onNavigate }) => {
         </div>
 
         {/* 곰 캐릭터와 말풍선 */}
+        {/* 말풍선 - ready 상태일 때만 표시 */}
+        {(status === 'ready') && transcript && (
+          <div style={{ marginBottom: 'var(--spacing-md)' }}>
+            <SpeechBubble message={transcript} />
+          </div>
+        )}
+
+        {/* 곰돌이와 KSL 결과 - 가로 배치 */}
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            marginBottom: 'var(--spacing-lg)'
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            gap: 'var(--spacing-lg)',
+            marginBottom: 'var(--spacing-lg)',
+            justifyContent: 'center'
           }}
         >
-          {/* ready, converting, signing 상태일 때 말풍선 표시 */}
-          {(status === 'ready' || status === 'converting' || status === 'signing') && transcript && <SpeechBubble message={transcript} />}
-          
-          {/* 곰 캐릭터 */}
+          {/* 곰 캐릭터 - 왼쪽 */}
           <div
             style={{
               display: 'flex',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              flexShrink: 0
             }}
           >
             <img
               src={
                 status === 'ready' ? bearSuggest :
                 status === 'analyzing' ? bearThinking :
-                status === 'converting' ? bearSuggest : // converting 상태에서는 ready와 같은 이미지 유지
+                status === 'converting' ? bearSuggest :
                 status === 'signing' ? bearSign :
                 bearPointing
               }
@@ -227,6 +246,16 @@ const Translate = ({ onNavigate }) => {
               }}
             />
           </div>
+          
+          {/* KSL 결과 - 오른쪽 (signing 상태일 때만) */}
+          {(status === 'signing') && kslGloss && (
+            <div style={{ flex: 1, maxWidth: '400px' }}>
+              <KSLResultCard 
+                original={transcript} 
+                kslResult={kslGloss} 
+              />
+            </div>
+          )}
         </div>
 
         {/* 메인 기능 카드 */}
