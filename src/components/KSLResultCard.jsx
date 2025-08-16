@@ -137,6 +137,7 @@ const KSLResultCard = ({ original, kslResult }) => {
         >
           <div
             style={{
+              width: '100%',
               padding: 'var(--spacing-sm) var(--spacing-md)',
               backgroundColor: '#f0f8ff',
               borderRadius: 'var(--radius)',
